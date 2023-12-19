@@ -1,6 +1,6 @@
 {
   "name": "@0x-jerry/openapi-ts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "This package provide a quick way to transform OpenAPI schema or Swagger schema to client code.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
