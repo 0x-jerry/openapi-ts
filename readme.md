@@ -61,19 +61,19 @@ interface APIParam {
 
 export const httpAdaptor = {
   post<T>(data: APIParam) {
-    threw new Error('Not implement')
+    throw new Error('Not implement')
   },
   get<T>(data: APIParam) {
-    threw new Error('Not implement')
+    throw new Error('Not implement')
   },
   put<T>(data: APIParam) {
-    threw new Error('Not implement')
+    throw new Error('Not implement')
   },
   delete<T>(data: APIParam) {
-    threw new Error('Not implement')
+    throw new Error('Not implement')
   },
   patch<T>(data: APIParam) {
-    threw new Error('Not implement')
+    throw new Error('Not implement')
   },
 }
 ```
