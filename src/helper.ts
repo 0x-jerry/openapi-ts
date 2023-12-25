@@ -1,6 +1,6 @@
 import type { ReferenceObject, SchemaObject } from 'openapi-typescript'
-import { Arrayable, toArray } from '@0x-jerry/utils'
-import { ParserContext } from './parser'
+import { type Arrayable, toArray } from '@0x-jerry/utils'
+import type { ParserContext } from './parser'
 
 export interface ReplaceSchemaTypeConfig {
   type: string

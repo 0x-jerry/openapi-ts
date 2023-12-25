@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "CommonJS",
+    "module": "ESNext",
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
     "outDir": "dist",
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals"
+    ]
   },
-  "include": ["src", "test"],
-  "exclude": ["test/out"]
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "test/out"
+  ]
 }

@@ -1,5 +1,5 @@
 import type { SchemaObject } from 'openapi-typescript'
-import { ParserContext, APIConfig, APIParameterConfig } from './parser'
+import type { ParserContext, APIConfig, APIParameterConfig } from './parser'
 import { convertPathToName, getFnResult } from './utils'
 import { quicktype, InputData, JSONSchemaInput, FetchingJSONSchemaStore } from 'quicktype-core'
 import { PascalCase } from '@0x-jerry/utils'
@@ -153,10 +153,10 @@ export function generateAPIList(ctx: ParserContext, option?: DeepPartial<Generat
       '*',
       `* url path: ${api.path}`,
       api.bodyTypeIsFormData &&
-        api.bodyType &&
-        `* @param data FormData keys: [${Object.keys(
-          ('properties' in api.bodyType.schema && api.bodyType.schema.properties) || {}
-        ).join(', ')}]`,
+      api.bodyType &&
+      `* @param data FormData keys: [${Object.keys(
+        ('properties' in api.bodyType.schema && api.bodyType.schema.properties) || {}
+      ).join(', ')}]`,
       api.tags && `* @tags ${api.tags.join(', ')}`,
       '*/',
     ].filter(Boolean)
@@ -230,7 +230,7 @@ function isMatchedPrefix(path: string, prefixConf: GenerateApiNameOption['pathPr
   return key == null
     ? null
     : {
-        prefix: key,
-        name: prefixConf[key] || '',
-      }
+      prefix: key,
+      name: prefixConf[key] || '',
+    }
 }
