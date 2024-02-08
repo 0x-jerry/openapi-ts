@@ -12,6 +12,7 @@ import type {
 import { getRef } from './helper'
 import { PascalCase } from '@0x-jerry/utils'
 import { unifySchema } from './normalize'
+import { convertPathToName } from './utils'
 
 export const METHODS = [
   //
@@ -32,6 +33,7 @@ export interface APIParameterConfig {
 }
 
 export interface APIConfig {
+  name: string
   summary?: string
 
   tags?: string[]
@@ -129,6 +131,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   const params = op.parameters?.map((n) => getRef(ctx, n)) || []
 
   const api: APIConfig = {
+    name: convertPathToName(path),
     summary: op.summary,
     description: op.description,
     tags: op.tags,
@@ -140,7 +143,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const paramsTypeSchema = parsePathParams(params, path)
   if (paramsTypeSchema) {
-    const name = api.summary + PascalCase(api.method) + 'Param'
+    const name = api.name + PascalCase(api.method) + 'Param'
     addApiTypeDef(api, name, paramsTypeSchema)
 
     api.paramsType = {
@@ -151,7 +154,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const queryTypeSchema = parseQueryParams(params)
   if (queryTypeSchema) {
-    const name = api.summary + PascalCase(api.method) + 'Query'
+    const name = api.name + PascalCase(api.method) + 'Query'
     addApiTypeDef(api, name, queryTypeSchema)
 
     api.queryType = {
@@ -163,7 +166,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   const bodyTypeSchema =
     method === 'get' ? null : parseRequestBodyType(ctx, getRef(ctx, op.requestBody))
   if (bodyTypeSchema) {
-    const name = api.summary + PascalCase(api.method) + 'RequestBody'
+    const name = api.name + PascalCase(api.method) + 'RequestBody'
     addApiTypeDef(api, name, bodyTypeSchema)
 
     api.bodyType = {
@@ -174,7 +177,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const responseTypeSchema = parseResponseType(ctx, op.responses)
   if (responseTypeSchema) {
-    const name = api.summary + PascalCase(api.method) + 'Response'
+    const name = api.name + PascalCase(api.method) + 'Response'
     addApiTypeDef(api, name, responseTypeSchema)
 
     api.responseType = {
