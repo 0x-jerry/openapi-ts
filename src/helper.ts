@@ -1,4 +1,4 @@
-import type { ReferenceObject, SchemaObject } from 'openapi-typescript'
+import type { OpenAPI3, ReferenceObject, SchemaObject } from 'openapi-typescript'
 import { type Arrayable, toArray } from '@0x-jerry/utils'
 import type { ParserContext } from './parser'
 
@@ -77,7 +77,12 @@ export function replaceSchemaType(ctx: ParserContext, opt: Arrayable<ReplaceSche
 
 export type DereferenceObject<T> = [T] extends [infer U | ReferenceObject] ? U : T
 
-export function getRef<T>(ctx: ParserContext, type: T): DereferenceObject<T> {
+export function getRef<T>(
+  ctx: {
+    schema: OpenAPI3
+  },
+  type: T
+): DereferenceObject<T> {
   if (!isRef(type)) {
     return type as any
   }
