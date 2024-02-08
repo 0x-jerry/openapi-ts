@@ -86,7 +86,7 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
   const typeCodes = await generateInterface(config.nameMapper.apiModel, schema)
   codes.push(typeCodes)
 
-  const apiCodes = groupedApi.map((api) => generateApi(api)).join('\n\n')
+  const apiCodes = groupedApi.map((api) => generateApiMethodCode(api)).join('\n\n')
   codes.push(apiCodes)
 
   fs.mkdirSync(dirname(outputFilePath), { recursive: true })
@@ -94,7 +94,7 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
   fs.writeFileSync(outputFilePath, codes.join('\n\n'))
 }
 
-function generateApi(api: APIConfig) {
+function generateApiMethodCode(api: APIConfig) {
   const params = [
     `    url: \`${generateRequestUrl(api)}\`,`,
     (api.bodyType || api.bodyTypeIsFormData) && `    body: ${config.nameMapper.body},`,
