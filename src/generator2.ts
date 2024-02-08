@@ -29,6 +29,8 @@ export async function generate(ctx: ParserContext) {
   return vfs
 }
 
+// todo, fix the same name with folder
+// ex. `clients.ts` file and `clients` folder
 function generateIndexFiles(vfs: IFs) {
   return _generateIndexFiles(vfs, '/')
 
