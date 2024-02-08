@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'fs'
-import json from '../test/schema/v2.json'
-import { generate } from './generator2'
-import { parseOpenAPI } from './parser2'
+import json from './schema/v2.json'
+import { generate } from '../src/generator2'
+import { parseOpenAPI } from '../src/parser2'
 import { type IFs } from 'memfs'
 import path from 'path'
 
@@ -9,10 +9,7 @@ const result = await parseOpenAPI(json)
 
 const vfs = await generate(result)
 
-writeToDisk(vfs, 'temp')
-// const st = snapshot.toJsonSnapshotSync({ fs: vfs })
-
-// writeFileSync('./test.json', st)
+writeToDisk(vfs, 'temp/generated')
 
 function writeToDisk(vfs: IFs, output: string) {
   const out = path.resolve(output)

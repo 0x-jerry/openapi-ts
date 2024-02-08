@@ -12,7 +12,7 @@ const config = {
     body: 'data',
     parameters: 'params',
   },
-  adapterPath: '_http.ts',
+  adapterPath: '../_http.ts',
 }
 
 export async function generate(ctx: ParserContext) {
@@ -24,10 +24,40 @@ export async function generate(ctx: ParserContext) {
 
   await Promise.all(p)
 
-  // todo
-  // generate index.ts
+  generateIndexFiles(vfs)
 
   return vfs
+}
+
+function generateIndexFiles(vfs: IFs) {
+  return _generateIndexFiles(vfs, '/')
+
+  function _generateIndexFiles(vfs: IFs, input: string) {
+    const files = vfs.readdirSync(input) as string[]
+
+    const hasIndex = files.includes('index.ts')
+
+    if (hasIndex) {
+      console.error('Can not create index file, for:', input)
+      return
+    }
+
+    const indexFileCodes: string[] = files.map((item) => {
+      const name = item.replace(/\.ts$/, '')
+      return `export * as ${name} from './${name}'`
+    })
+
+    vfs.writeFileSync(path.join(input, 'index.ts'), indexFileCodes.join('\n'))
+
+    for (const file of files) {
+      const _input = path.join(input, file.toString())
+      const isDirectory = vfs.statSync(_input).isDirectory()
+
+      if (isDirectory) {
+        _generateIndexFiles(vfs, _input)
+      }
+    }
+  }
 }
 
 async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs: IFs) {
