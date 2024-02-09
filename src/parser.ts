@@ -9,22 +9,18 @@ import type {
   ResponseObject,
   SchemaObject,
 } from 'openapi-typescript'
-import { swaggerToOpenAPI } from './swagger2openapi'
-import { convertPathToName } from './utils'
-import { cloneDeep } from 'lodash-es'
 import { getRef } from './helper'
-import fetch from 'node-fetch'
 import { PascalCase } from '@0x-jerry/utils'
+import { unifySchema } from './normalize'
+import { convertPathToName } from './utils'
 
 export const METHODS = [
+  //
   'get',
   'put',
   'post',
   'delete',
-  // 'options',
-  // 'head',
   'patch',
-  // 'trace',
 ] as const
 
 export type APIMethod = (typeof METHODS)[number]
@@ -37,10 +33,8 @@ export interface APIParameterConfig {
 }
 
 export interface APIConfig {
-  /**
-   * api function name
-   */
   name: string
+  summary?: string
 
   tags?: string[]
 
@@ -74,14 +68,11 @@ export interface APIConfig {
   bodyTypeIsFormData: boolean
 
   responseType?: APIParameterConfig
+
+  types: Record<string, SchemaObject>
 }
 
 export interface ParserContext {
-  /**
-   * export interface name
-   */
-  name: string
-
   /**
    * openapi v3 schema
    */
@@ -91,16 +82,6 @@ export interface ParserContext {
    * api config list
    */
   apis: APIConfig[]
-
-  /**
-   * interface config
-   */
-  defs: Record<string, SchemaObject>
-
-  /**
-   * interface name map
-   */
-  defsMap: Map<SchemaObject, string>
 }
 
 export interface ParseOpenAPIOption {
@@ -113,58 +94,12 @@ export interface ParseOpenAPIOption {
 export async function parseOpenAPI(schema: any, opt?: ParseOpenAPIOption) {
   const ctx: ParserContext = {
     schema: await unifySchema(schema, opt?.forceUseApi),
-    name: 'APIModels',
     apis: [],
-    defs: {},
-    defsMap: new Map(),
   }
 
   parsePaths(ctx, ctx.schema.paths || {})
 
   return ctx
-}
-
-async function unifySchema(schema: any, force?: boolean): Promise<OpenAPI3> {
-  if (force) {
-    return useApiConvertSchema(schema)
-  }
-
-  const isV2 = schema.swagger === '2.0'
-
-  if (!isV2) {
-    return cloneDeep(schema as OpenAPI3)
-  }
-
-  try {
-    const result = await swaggerToOpenAPI(schema)
-
-    return cloneDeep(result)
-  } catch (error) {
-    // ignore error
-    return useApiConvertSchema(schema)
-  }
-}
-
-/**
- *
- * use api to convert: https://converter.swagger.io/#/Converter/convertByContent
- *
- * @param schema
- * @returns
- */
-async function useApiConvertSchema(schema: any) {
-  const resp = await fetch('https://converter.swagger.io/api/convert', {
-    method: 'post',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(schema),
-  })
-
-  const result = (await resp.json()) as OpenAPI3
-
-  return result
 }
 
 function parsePaths(ctx: ParserContext, paths: PathsObject) {
@@ -173,7 +108,7 @@ function parsePaths(ctx: ParserContext, paths: PathsObject) {
     const methods = Object.keys(conf).filter((m: any) => METHODS.includes(m)) as APIMethod[]
 
     for (const method of methods) {
-      const op = conf[method]
+      const op = getRef(ctx, conf[method])
 
       if (!op) return
 
@@ -197,17 +132,19 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const api: APIConfig = {
     name: convertPathToName(path),
-    description: op.description || op.summary,
+    summary: op.summary,
+    description: op.description,
     tags: op.tags,
     path: path,
     method: method,
     bodyTypeIsFormData: method === 'get' ? false : isFormData(ctx, getRef(ctx, op.requestBody)),
+    types: {},
   }
 
   const paramsTypeSchema = parsePathParams(params, path)
   if (paramsTypeSchema) {
     const name = api.name + PascalCase(api.method) + 'Param'
-    addTypeDef(ctx, name, paramsTypeSchema)
+    addApiTypeDef(api, name, paramsTypeSchema)
 
     api.paramsType = {
       name,
@@ -218,7 +155,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   const queryTypeSchema = parseQueryParams(params)
   if (queryTypeSchema) {
     const name = api.name + PascalCase(api.method) + 'Query'
-    addTypeDef(ctx, name, queryTypeSchema)
+    addApiTypeDef(api, name, queryTypeSchema)
 
     api.queryType = {
       name,
@@ -230,7 +167,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
     method === 'get' ? null : parseRequestBodyType(ctx, getRef(ctx, op.requestBody))
   if (bodyTypeSchema) {
     const name = api.name + PascalCase(api.method) + 'RequestBody'
-    addTypeDef(ctx, name, bodyTypeSchema)
+    addApiTypeDef(api, name, bodyTypeSchema)
 
     api.bodyType = {
       name,
@@ -241,7 +178,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   const responseTypeSchema = parseResponseType(ctx, op.responses)
   if (responseTypeSchema) {
     const name = api.name + PascalCase(api.method) + 'Response'
-    addTypeDef(ctx, name, responseTypeSchema)
+    addApiTypeDef(api, name, responseTypeSchema)
 
     api.responseType = {
       name,
@@ -252,12 +189,8 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   return api
 }
 
-function addTypeDef(ctx: ParserContext, name: string, schema: SchemaObject) {
-  ctx.defs[name] = schema
-
-  if (!ctx.defsMap.get(schema)) {
-    ctx.defsMap.set(schema!, name)
-  }
+function addApiTypeDef(api: APIConfig, name: string, schema: SchemaObject) {
+  api.types[name] = schema
 }
 
 function parseResponseType(
@@ -332,7 +265,6 @@ function parsePathParams(params: ParameterObject[], path: string): SchemaObject 
   const pathParams = params.filter((p) => p.in === 'path' && p.name)
 
   pathParams.forEach((param) => {
-    // @ts-ignore
     schema.properties![param.name!] = {
       description: param.description,
       ...param.schema,

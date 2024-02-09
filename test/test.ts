@@ -1,7 +1,6 @@
 import { mkdirSync, writeFileSync } from 'fs'
 import json from './schema/v2.json'
-import { generate } from '../src/generator2'
-import { parseOpenAPI } from '../src/parser2'
+import { generate, parseOpenAPI } from '../src'
 import { type IFs } from 'memfs'
 import path from 'path'
 import { spawnSync } from 'child_process'

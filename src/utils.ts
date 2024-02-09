@@ -26,12 +26,3 @@ export function convertPathToName(path: string) {
     })
     .join('')
 }
-
-export function getFnResult<T>(
-  fnOrValue: T,
-  ...params: Parameters<T extends (...args: any) => any ? T : () => void>
-): T extends (...args: any) => infer U ? U : T {
-  const isFn = typeof fnOrValue === 'function'
-
-  return isFn ? fnOrValue(...(params as any)) : fnOrValue
-}

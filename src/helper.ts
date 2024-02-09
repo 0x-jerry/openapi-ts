@@ -27,10 +27,7 @@ export interface ReplaceSchemaTypeConfig {
  * @param opt
  */
 export function replaceSchemaType(ctx: ParserContext, opt: Arrayable<ReplaceSchemaTypeConfig>) {
-  const schema: SchemaObject = {
-    type: 'object',
-    properties: ctx.defs,
-  }
+  const schema: SchemaObject = ctx.schema
 
   const conf = toArray(opt)
 
