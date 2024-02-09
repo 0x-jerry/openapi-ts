@@ -15,7 +15,7 @@ const config = {
   adapterPath: '../_http.ts',
 }
 
-export async function generate(ctx: ParserContext) {
+export async function generateFromCtx(ctx: ParserContext) {
   const groupedApis = Object.values(groupBy(ctx.apis, (n) => n.path))
 
   const vfs = createFsFromVolume(new Volume())

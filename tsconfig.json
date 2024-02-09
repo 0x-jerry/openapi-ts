@@ -3,7 +3,7 @@
     "target": "es2018",
     "module": "ESNext",
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
