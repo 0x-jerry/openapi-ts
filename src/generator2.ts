@@ -29,8 +29,6 @@ export async function generate(ctx: ParserContext) {
   return vfs
 }
 
-// todo, fix the same name with folder
-// ex. `clients.ts` file and `clients` folder
 function generateIndexFiles(vfs: IFs) {
   return _generateIndexFiles(vfs, '/')
 
@@ -44,12 +42,28 @@ function generateIndexFiles(vfs: IFs) {
       return
     }
 
-    const indexFileCodes: string[] = files.map((item) => {
-      const name = item.replace(/\.ts$/, '')
-      return `export * as ${name} from './${name}'`
-    })
+    {
+      // generate index file
+      const tsFiles = files.filter((n) => n.endsWith('.ts'))
+      const theSameNameFolder = files.filter((item) => tsFiles.includes(item + '.ts'))
 
-    vfs.writeFileSync(path.join(input, 'index.ts'), indexFileCodes.join('\n'))
+      theSameNameFolder.forEach((name) => {
+        const _file = path.join(input, name + '.ts')
+        let code = vfs.readFileSync(_file)
+        code = [code, `export * from './${name}/index'`].join('\n\n')
+
+        vfs.writeFileSync(_file, code)
+      })
+
+      const includeFiles = files.filter((n) => !theSameNameFolder.includes(n))
+
+      const indexFileCodes: string[] = includeFiles.map((item) => {
+        const name = item.replace(/\.ts$/, '')
+        return `export * as ${name} from './${name}'`
+      })
+
+      vfs.writeFileSync(path.join(input, 'index.ts'), indexFileCodes.join('\n'))
+    }
 
     for (const file of files) {
       const _input = path.join(input, file.toString())
