@@ -50,7 +50,7 @@ function generateIndexFiles(vfs: IFs) {
       theSameNameFolder.forEach((name) => {
         const _file = path.join(input, name + '.ts')
         let code = vfs.readFileSync(_file)
-        code = [code, `export * from './${name}/index'`].join('\n\n')
+        code = [code, `export * from './${name}/index.ts'`].join('\n\n')
 
         vfs.writeFileSync(_file, code)
       })
@@ -59,10 +59,12 @@ function generateIndexFiles(vfs: IFs) {
 
       const indexFileCodes: string[] = includeFiles.map((item) => {
         const name = item.replace(/\.ts$/, '')
-        return `export * as ${name} from './${name}'`
+        return `export * as ${name} from './${item}'`
       })
 
-      vfs.writeFileSync(path.join(input, 'index.ts'), indexFileCodes.join('\n'))
+      const codes = [`//@ts-ignore\n//@ts-nocheck`, ...indexFileCodes]
+
+      vfs.writeFileSync(path.join(input, 'index.ts'), codes.join('\n'))
     }
 
     for (const file of files) {
