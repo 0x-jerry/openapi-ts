@@ -111,6 +111,22 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
 }
 
 function generateApiMethodCode(api: APIConfig) {
+  const comments = [
+    '/**',
+    `* ${api.summary || ''}`,
+    '*',
+    `* ${api.description || ''}`,
+    '*',
+    `* url path: ${api.path}`,
+    api.bodyTypeIsFormData &&
+      api.bodyType &&
+      `* @param data FormData keys: [${Object.keys(
+        ('properties' in api.bodyType.schema && api.bodyType.schema.properties) || {}
+      ).join(', ')}]`,
+    api.tags && `* @tags ${api.tags.join(', ')}`,
+    '*/',
+  ].filter(Boolean)
+
   const params = [
     `    url: \`${generateRequestUrl(api)}\`,`,
     (api.bodyType || api.bodyTypeIsFormData) && `    body: ${config.nameMapper.body},`,
@@ -118,11 +134,16 @@ function generateApiMethodCode(api: APIConfig) {
     'config',
   ].filter(Boolean)
 
-  return `export const $${api.method.toLowerCase()} = (${generateRequestParameters(api)}) => {
+  const codes = [
+    comments.join('\n'),
+    `export const $${api.method.toLowerCase()} = (${generateRequestParameters(api)}) => {
     return _http.${api.method}<${generateResponseType(api)}>({
       ${params.join('\n')}
     })
-  }`
+  }`,
+  ]
+
+  return codes.join('\n')
 }
 
 function generateRequestUrl(api: APIConfig): string {
