@@ -7,6 +7,24 @@
     "path": "/api/Pay",
     "method": "get",
     "bodyTypeIsFormData": false,
+    "types": {
+      "ApiPayGetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "responseType": {
       "name": "ApiPayGetResponse",
       "schema": {
@@ -35,6 +53,21 @@
     "path": "/api/Pay",
     "method": "post",
     "bodyTypeIsFormData": true,
+    "types": {
+      "ApiPayPostRequestBody": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "description": "file",
+            "type": "string",
+            "format": "binary"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      }
+    },
     "bodyType": {
       "name": "ApiPayPostRequestBody",
       "schema": {

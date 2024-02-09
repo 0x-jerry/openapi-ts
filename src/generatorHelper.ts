@@ -30,7 +30,7 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
 export async function generate(opt: GenerateClientCodesOptions) {
   const { option, fs: vfs } = await generateClientCodes(opt)
 
-  writeToDisk(vfs, option.output)
+  writeToDisk(vfs.fs, option.output)
 
   const biomeBin = path.join(
     fileURLToPath(import.meta.resolve('@biomejs/biome/package.json')),

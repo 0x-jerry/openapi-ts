@@ -18,7 +18,8 @@ const config = {
 export async function generateFromCtx(ctx: ParserContext) {
   const groupedApis = Object.values(groupBy(ctx.apis, (n) => n.path))
 
-  const vfs = createFsFromVolume(new Volume())
+  const vol = new Volume()
+  const vfs = createFsFromVolume(vol)
 
   const p = groupedApis.map((groupedApi) => generateApiByPath(ctx, groupedApi, vfs))
 
@@ -26,7 +27,7 @@ export async function generateFromCtx(ctx: ParserContext) {
 
   generateIndexFiles(vfs)
 
-  return vfs
+  return { fs: vfs, vol }
 }
 
 function generateIndexFiles(vfs: IFs) {

@@ -1,0 +1,64 @@
+{
+  "/api/Pay.ts": "// @ts-ignore
+// @ts-nocheck
+
+import { _http, type RequestConfig } from '../../_http.ts'
+
+export interface TypeModel {
+    ApiPayGetResponse:     APIPayGetResponse;
+    ApiPayPostRequestBody: APIPayPostRequestBody;
+    [property: string]: any;
+}
+
+export interface APIPayGetResponse {
+    id?:   string;
+    name?: string;
+}
+
+export interface APIPayPostRequestBody {
+    /**
+     * file
+     */
+    file: string;
+    [property: string]: any;
+}
+
+
+/**
+* 
+*
+* 
+*
+* url path: /api/Pay
+* @tags Pay
+*/
+export const $get = (config?: RequestConfig) => {
+    return _http.get<TypeModel["ApiPayGetResponse"]>({
+          url: `/api/Pay`,
+config
+    })
+  }
+
+/**
+* 
+*
+* 
+*
+* url path: /api/Pay
+* @param data FormData keys: [file]
+* @tags Pay
+*/
+export const $post = (data: FormData, config?: RequestConfig) => {
+    return _http.post<void>({
+          url: `/api/Pay`,
+    body: data,
+config
+    })
+  }",
+  "/api/index.ts": "//@ts-ignore
+//@ts-nocheck
+export * as Pay from './Pay.ts'",
+  "/index.ts": "//@ts-ignore
+//@ts-nocheck
+export * as api from './api'",
+}
