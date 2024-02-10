@@ -7,6 +7,7 @@ import { generateInterface } from './generateTypes'
 
 const config = {
   nameMapper: {
+    requestAdapterName: '_request',
     apiModel: 'TypeModel',
     query: 'query',
     body: 'data',
@@ -90,7 +91,7 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
 
   const codes: string[] = [
     `// @ts-ignore\n// @ts-nocheck`,
-    `import { _http, type RequestConfig } from '${adapterRelativePath}'`,
+    `import { ${config.nameMapper.requestAdapterName}, type RequestConfig } from '${adapterRelativePath}'`,
   ]
 
   const types = Object.assign({}, ...groupedApi.map((item) => item.types))
@@ -131,16 +132,17 @@ function generateApiMethodCode(api: APIConfig) {
   ].filter(Boolean)
 
   const params = [
+    `method: '${api.method}',`,
     `    url: \`${generateRequestUrl(api)}\`,`,
     (api.bodyType || api.bodyTypeIsFormData) && `    body: ${config.nameMapper.body},`,
     api.queryType && `    query: ${config.nameMapper.query},`,
-    'config',
+    'config,',
   ].filter(Boolean)
 
   const codes = [
     comments.join('\n'),
     `export const $${api.method.toLowerCase()} = (${generateRequestParameters(api)}) => {
-    return _http.${api.method}<${generateResponseType(api)}>({
+    return ${config.nameMapper.requestAdapterName}<${generateResponseType(api)}>({
       ${params.join('\n')}
     })
   }`,
