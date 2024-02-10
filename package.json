@@ -19,7 +19,6 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --coverage",
     "build": "tsup",
-    "prepublishOnly": "npm run build",
     "g:test": "tsx test/e2e.ts",
     "release": "x-release"
   },
