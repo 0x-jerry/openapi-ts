@@ -13,7 +13,7 @@ const config = {
     body: 'data',
     parameters: 'params',
   },
-  adapterPath: '../_http.ts',
+  adapterPath: '../_adapter.ts',
 }
 
 export async function generateFromCtx(ctx: ParserContext) {

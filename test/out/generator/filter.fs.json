@@ -2,7 +2,7 @@
   "/api/gen/clients.ts": "// @ts-ignore
 // @ts-nocheck
 
-import { _request, type RequestConfig } from '../../../_http.ts'
+import { _request, type RequestConfig } from '../../../_adapter.ts'
 
 export interface TypeModel {
     ApiGenClientsGetResponse: string[];
@@ -30,7 +30,7 @@ export * from './clients/index.ts'",
   "/api/gen/clients/_language.ts": "// @ts-ignore
 // @ts-nocheck
 
-import { _request, type RequestConfig } from '../../../../_http.ts'
+import { _request, type RequestConfig } from '../../../../_adapter.ts'
 
 export interface TypeModel {
     ApiGenClientsLanguageGetParam:        APIGenClientsLanguageGetParam;

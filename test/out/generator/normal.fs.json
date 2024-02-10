@@ -2,7 +2,7 @@
   "/api/Pay.ts": "// @ts-ignore
 // @ts-nocheck
 
-import { _request, type RequestConfig } from '../../_http.ts'
+import { _request, type RequestConfig } from '../../_adapter.ts'
 
 export interface TypeModel {
     ApiPayGetResponse:     APIPayGetResponse;
