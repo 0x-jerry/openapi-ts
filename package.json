@@ -10,10 +10,18 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --coverage",
-    "build": "tsup src/index.ts --format esm --dts --clean",
+    "build": "tsup",
     "prepublishOnly": "npm run build",
     "g:test": "tsx test/e2e.ts",
     "release": "x-release"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": "esm",
+    "dts": true,
+    "clean": true
   },
   "files": [
     "dist"
@@ -21,6 +29,10 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
+  },
+  "optionalDependencies": {
+    "axios": "^1.6.7",
+    "ky": "^1.2.0"
   },
   "dependencies": {
     "@0x-jerry/utils": "^2.1.1",
@@ -37,6 +49,8 @@
     "@types/node": "^20.11.16",
     "@vitest/coverage-v8": "^1.2.2",
     "@vitest/ui": "^1.2.2",
+    "axios": "^1.6.7",
+    "ky": "^1.2.0",
     "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",

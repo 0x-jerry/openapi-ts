@@ -19,7 +19,7 @@ await generate({
 })
 ```
 
-2. Implement custom API adaptor `api/_http.ts`
+2. Implement custom API adaptor `api/_adapter.ts`
 
 ```ts
 export interface Config {
@@ -42,7 +42,7 @@ interface APIParam {
   config?: Config
 }
 
-export const _http = {
+export const _request = {
   post<T>(data: APIParam) {
     throw new Error('Not implement')
   },

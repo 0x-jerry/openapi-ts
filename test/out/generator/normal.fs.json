@@ -2,7 +2,7 @@
   "/api/Pay.ts": "// @ts-ignore
 // @ts-nocheck
 
-import { _http, type RequestConfig } from '../../_http.ts'
+import { _request, type RequestConfig } from '../../_http.ts'
 
 export interface TypeModel {
     ApiPayGetResponse:     APIPayGetResponse;
@@ -33,9 +33,10 @@ export interface APIPayPostRequestBody {
 * @tags Pay
 */
 export const $get = (config?: RequestConfig) => {
-    return _http.get<TypeModel["ApiPayGetResponse"]>({
-          url: `/api/Pay`,
-config
+    return _request<TypeModel["ApiPayGetResponse"]>({
+      method: 'get',
+    url: `/api/Pay`,
+config,
     })
   }
 
@@ -49,10 +50,11 @@ config
 * @tags Pay
 */
 export const $post = (data: FormData, config?: RequestConfig) => {
-    return _http.post<void>({
-          url: `/api/Pay`,
+    return _request<void>({
+      method: 'post',
+    url: `/api/Pay`,
     body: data,
-config
+config,
     })
   }",
   "/api/index.ts": "//@ts-ignore
