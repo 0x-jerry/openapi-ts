@@ -2,9 +2,17 @@
   "name": "@0x-jerry/openapi-ts",
   "version": "1.1.0",
   "description": "This package provide a quick way to transform OpenAPI schema or Swagger schema to client typescript code.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/src/index.js",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./runtime": {
+      "default": "./dist/runtime/index.js",
+      "types": "./dist/runtime/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,7 +25,8 @@
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "src/index.ts",
+      "runtime/index.ts"
     ],
     "format": "esm",
     "dts": true,
