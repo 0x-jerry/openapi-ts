@@ -22,42 +22,22 @@ await generate({
 2. Implement custom API adaptor `api/_adapter.ts`
 
 ```ts
+import { type RequestParams } from '@0x-jerry/openapi-ts'
+
 export interface Config {
   customOption?: any
 }
 
-interface APIParam {
-  url: string
-  /**
-   * request body
-   */
-  data?: any
-  /**
-   * query
-   */
-  query?: any
-  /**
-   * custom config
-   */
-  config?: Config
-}
+export const _request = async <Return>(data: RequestParams<Config>) => {
+  const resp = await doRequest({
+    url: data.url,
+    method: data.method,
+    searchParams: data.query,
+    body: data.data,
+    config: data.config,
+  })
 
-export const _request = {
-  post<T>(data: APIParam) {
-    throw new Error('Not implement')
-  },
-  get<T>(data: APIParam) {
-    throw new Error('Not implement')
-  },
-  put<T>(data: APIParam) {
-    throw new Error('Not implement')
-  },
-  delete<T>(data: APIParam) {
-    throw new Error('Not implement')
-  },
-  patch<T>(data: APIParam) {
-    throw new Error('Not implement')
-  },
+  return resp as Return
 }
 ```
 
