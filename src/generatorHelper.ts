@@ -45,7 +45,7 @@ export async function generate(opt: GenerateClientCodesOptions) {
     '../bin/biome'
   )
 
-  spawnSync(biomeBin, 'format --write temp/generated'.split(' '))
+  spawnSync(biomeBin, ['format', '--write', option.output])
 }
 
 function writeToDisk(vfs: IFs, output: string) {
