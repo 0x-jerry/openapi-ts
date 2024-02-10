@@ -7,7 +7,6 @@ This package provide a quick way to transform OpenAPI schema or Swagger schema t
 1. Generate client typescript code
 
 ```ts
-import fetch from 'node-fetch'
 import { generate } from '@0x-jerry/openapi-ts'
 
 const apiUrl = 'http://doc-url/api-docs'

@@ -2,7 +2,7 @@ import { groupBy } from 'lodash-es'
 import type { ParserContext, APIConfig, APIParameterConfig } from './parser'
 import { type IFs, Volume, createFsFromVolume } from 'memfs'
 import path, { dirname } from 'path'
-import { type SchemaObject } from 'openapi-typescript'
+import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from './generateTypes'
 
 const config = {

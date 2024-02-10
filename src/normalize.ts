@@ -2,7 +2,6 @@
 import swagger2openapi from 'swagger2openapi'
 import type { OpenAPI3 } from 'openapi-typescript'
 import { cloneDeep } from 'lodash-es'
-import fetch from 'node-fetch'
 
 /**
  *

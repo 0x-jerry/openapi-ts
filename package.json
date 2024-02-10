@@ -12,7 +12,7 @@
     "test:ui": "vitest --ui --coverage",
     "build": "tsup src/index.ts --format esm --dts --clean",
     "prepublishOnly": "npm run build",
-    "gen:test": "tsx temp/e2e.ts",
+    "g:test": "tsx test/e2e.ts",
     "release": "x-release"
   },
   "files": [
@@ -27,6 +27,7 @@
     "@biomejs/biome": "^1.5.3",
     "lodash-es": "^4.17.21",
     "memfs": "^4.6.0",
+    "openapi-typescript": "^6.7.4",
     "quicktype-core": "^23.0.81",
     "swagger2openapi": "^7.0.8"
   },
@@ -36,8 +37,6 @@
     "@types/node": "^20.11.16",
     "@vitest/coverage-v8": "^1.2.2",
     "@vitest/ui": "^1.2.2",
-    "node-fetch": "^3.3.2",
-    "openapi-typescript": "^6.7.4",
     "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
