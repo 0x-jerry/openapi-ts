@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from 'fs'
-import { parseOpenAPI } from './parser'
+import { parseOpenAPI, type APIConfig } from './parser'
 import { type IFs } from 'memfs'
 import path from 'path'
 import { spawnSync } from 'child_process'
@@ -12,15 +12,23 @@ export interface GenerateClientCodesOptions {
    * @default 'api/generated'
    */
   output?: string
+
+  /**
+   * filter api
+   * @param api
+   */
+  filter?: (api: APIConfig) => boolean
 }
 
 export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const option: Required<GenerateClientCodesOptions> = Object.assign(
-    { output: 'api/generated' },
+    { output: 'api/generated', filter: () => true },
     opt
   )
 
   const result = await parseOpenAPI(option.schema)
+
+  result.apis = result.apis.filter(option.filter)
 
   const vfs = await generateFromCtx(result)
 

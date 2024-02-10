@@ -9,6 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui --coverage",
     "build": "tsup src/index.ts --format esm --dts --clean",
     "prepublishOnly": "npm run build",
     "gen:test": "tsx temp/e2e.ts",
@@ -21,17 +22,6 @@
     "registry": "https://registry.npmjs.org",
     "access": "public"
   },
-  "devDependencies": {
-    "@0x-jerry/x-release": "^0.4.0",
-    "@types/lodash-es": "^4.17.12",
-    "@types/node": "^20.11.16",
-    "node-fetch": "^3.3.2",
-    "openapi-typescript": "^6.7.4",
-    "tsup": "^8.0.1",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3",
-    "vitest": "1.2.2"
-  },
   "dependencies": {
     "@0x-jerry/utils": "^2.1.1",
     "@biomejs/biome": "^1.5.3",
@@ -39,5 +29,18 @@
     "memfs": "^4.6.0",
     "quicktype-core": "^23.0.81",
     "swagger2openapi": "^7.0.8"
+  },
+  "devDependencies": {
+    "@0x-jerry/x-release": "^0.4.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.11.16",
+    "@vitest/coverage-v8": "^1.2.2",
+    "@vitest/ui": "^1.2.2",
+    "node-fetch": "^3.3.2",
+    "openapi-typescript": "^6.7.4",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "1.2.2"
   }
 }

@@ -17,4 +17,15 @@ describe('openapi parse', () => {
 
     expect(content).toMatchFileSnapshot('./out/generator/normal.fs.json')
   })
+
+  it('should only generate path start with `/api/gen/clients`', async () => {
+    const c = await generateClientCodes({
+      schema: sharedSchema.v2,
+      filter: (api) => api.path.startsWith('/api/gen/clients'),
+    })
+
+    const content = c.fs.vol.toJSON()
+
+    expect(content).toMatchFileSnapshot('./out/generator/filter.fs.json')
+  })
 })
