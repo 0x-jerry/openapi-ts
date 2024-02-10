@@ -35,14 +35,14 @@ interface APIParam {
   /**
    * query
    */
-  params?: any
+  query?: any
   /**
    * custom config
    */
   config?: Config
 }
 
-export const httpAdaptor = {
+export const _http = {
   post<T>(data: APIParam) {
     throw new Error('Not implement')
   },
