@@ -9,9 +9,10 @@
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
+    "isolatedModules": true,
     "outDir": "dist",
     "types": ["vitest/globals"]
   },
-  "include": ["src", "test"],
+  "include": ["src", "test", "runtime"],
   "exclude": ["test/out"]
 }

@@ -1,7 +1,7 @@
-import { Axios } from 'axios'
+import type { AxiosInstance } from 'axios'
 import type { RequestParams } from './types'
 
-export function createAxiosAdapter<Config extends {}>(axios: Axios) {
+export function createAxiosAdapter<Config extends {}>(axios: AxiosInstance) {
   const _request = async <Return>(data: RequestParams<Config>) => {
     const resp = await axios.request<Return>({
       method: data.method,
