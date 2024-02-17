@@ -84,10 +84,9 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
   let outputFilePath = groupedApi.at(0)!.path
   outputFilePath = normalizeApiPath(outputFilePath) + '.ts'
 
-  const adapterRelativePath = path.join(
-    path.relative(path.dirname(outputFilePath), '/'),
-    config.adapterPath
-  )
+  const adapterRelativePath = path
+    .join(path.relative(path.dirname(outputFilePath), '/'), config.adapterPath)
+    .replaceAll('\\', '/')
 
   const codes: string[] = [
     `// @ts-ignore\n// @ts-nocheck`,
