@@ -135,6 +135,7 @@ function generateApiMethodCode(api: APIConfig) {
     `    url: \`${generateRequestUrl(api)}\`,`,
     (api.bodyType || api.bodyTypeIsFormData) && `    body: ${config.nameMapper.body},`,
     api.queryType && `    query: ${config.nameMapper.query},`,
+    api.paramsType && `    params: ${config.nameMapper.parameters},`,
     'config,',
   ].filter(Boolean)
 

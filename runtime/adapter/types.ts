@@ -13,10 +13,17 @@ export interface RequestParams<Config> {
    * request body
    */
   data?: any
+
   /**
    * query
    */
   query?: any
+
+  /**
+   * path parameters
+   */
+  params?: any
+
   /**
    * custom config
    */
