@@ -20,7 +20,8 @@
     "test:ui": "vitest --ui --coverage",
     "build": "tsup",
     "g:test": "tsx test/e2e.ts",
-    "release": "x-release"
+    "release": "x-release",
+    "prepublishOnly": "npm run build"
   },
   "tsup": {
     "entry": [
