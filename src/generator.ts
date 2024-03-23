@@ -169,7 +169,7 @@ function normalizeFilePath(apiPath: string) {
     .map((item) => (/^\{[^\}]+\}$/.test(item) ? `_${item.slice(1, -1)}` : item))
     .join('/')
 
-  if (['', '/'].includes(filePath)) {
+  if (filePath === '/') {
     filePath = '/_'
   }
 
