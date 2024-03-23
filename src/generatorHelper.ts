@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from 'fs'
+import fsp from 'fs-extra'
 import { parseOpenAPI, type APIConfig } from './parser'
 import { type IFs } from 'memfs'
 import path from 'path'
@@ -12,17 +12,25 @@ export interface GenerateClientCodesOptions {
   output?: string
 
   /**
-   * filter api
+   * Filter api
    * @param api
    */
   filter?: (api: APIConfig) => boolean
 
+  /**
+   * Format output code.
+   */
   format?: boolean
+
+  /**
+   * Clean output dir before write file.
+   */
+  clean?: boolean
 }
 
 export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const option: Required<GenerateClientCodesOptions> = Object.assign(
-    { output: 'api/generated', filter: () => true, format: false },
+    { output: 'api/generated', filter: () => true, format: false, clean: false },
     opt,
   )
 
@@ -42,7 +50,9 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
 export async function generate(opt: GenerateClientCodesOptions) {
   const { option, fs: vfs } = await generateClientCodes(opt)
 
-  writeToDisk(vfs.fs, option.output)
+  await writeToDisk(vfs.fs, option.output, {
+    clean: opt.clean,
+  })
 }
 
 async function formatCodes(vfs: IFs, dir: string = '/') {
@@ -71,12 +81,16 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
   }
 }
 
-function writeToDisk(vfs: IFs, output: string) {
+async function writeToDisk(vfs: IFs, output: string, opt: { clean?: boolean } = {}) {
   const out = path.resolve(output)
+
+  if (opt.clean && (await fsp.pathExists(out))) {
+    await fsp.emptyDir(out)
+  }
 
   return _writeToDisk(vfs, '/', out)
 
-  function _writeToDisk(vfs: IFs, input: string, output: string) {
+  async function _writeToDisk(vfs: IFs, input: string, output: string) {
     const files = vfs.readdirSync(input)
 
     for (const file of files) {
@@ -89,9 +103,9 @@ function writeToDisk(vfs: IFs, output: string) {
         _writeToDisk(vfs, _input, _out)
       } else {
         // write to disk
-        mkdirSync(output, { recursive: true })
+        await fsp.ensureDir(output)
 
-        writeFileSync(_out, vfs.readFileSync(_input))
+        await fsp.writeFile(_out, vfs.readFileSync(_input))
       }
     }
   }

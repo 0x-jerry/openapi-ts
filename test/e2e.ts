@@ -7,4 +7,6 @@ const swaggerSchema = await (await fetch(apiUrl)).json()
 await generate({
   schema: swaggerSchema,
   output: 'temp/generated',
+  format: true,
+  clean: true,
 })
