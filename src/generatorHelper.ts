@@ -59,11 +59,14 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
 
       const content = vfs.readFileSync(filePath)
 
-      const formattedContent = await prettier.format(content.toString(), {
-        parser: 'typescript',
-      })
-
-      vfs.writeFileSync(filePath, formattedContent)
+      try {
+        const formattedContent = await prettier.format(content.toString(), {
+          parser: 'typescript',
+        })
+        vfs.writeFileSync(filePath, formattedContent)
+      } catch (error) {
+        console.warn('Format code failed:', filePath)
+      }
     }
   }
 }

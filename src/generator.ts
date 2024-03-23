@@ -87,8 +87,8 @@ function generateIndexFiles(vfs: IFs) {
 }
 
 async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs: IFs) {
-  let outputFilePath = groupedApi.at(0)!.path
-  outputFilePath = normalizeApiPath(outputFilePath) + '.ts'
+  const apiPath = groupedApi.at(0)!.path
+  const outputFilePath = normalizeFilePath(apiPath)
 
   const adapterRelativePath = path
     .join(path.relative(path.dirname(outputFilePath), '/'), config.adapterPath)
@@ -163,11 +163,17 @@ function generateRequestUrl(api: APIConfig): string {
   return api.path.replace(parseParamReg, `\${${config.nameMapper.parameters}.\$1}`)
 }
 
-function normalizeApiPath(path: string) {
-  return path
+function normalizeFilePath(apiPath: string) {
+  let filePath = apiPath
     .split('/')
     .map((item) => (/^\{[^\}]+\}$/.test(item) ? `_${item.slice(1, -1)}` : item))
     .join('/')
+
+  if (['', '/'].includes(filePath)) {
+    filePath = '/_'
+  }
+
+  return filePath + '.ts'
 }
 
 interface ParameterConfig {
