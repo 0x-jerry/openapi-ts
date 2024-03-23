@@ -4,7 +4,6 @@ import { type IFs, Volume, createFsFromVolume } from 'memfs'
 import path, { dirname } from 'path'
 import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from './generateTypes'
-import ora from 'ora'
 import { createSpinner } from './utils'
 
 const config = {
@@ -25,12 +24,6 @@ export async function generateFromCtx(ctx: ParserContext) {
   const vfs = createFsFromVolume(vol)
 
   const spinner = createSpinner('Generate code from spec', groupedApis.length).start()
-
-  // const p = groupedApis.map(async (groupedApi) => {
-  //   await generateApiByPath(ctx, groupedApi, vfs)
-  //   spinner.plusOne()
-  // })
-  // await Promise.all(p)
 
   for (const groupedApi of groupedApis) {
     await generateApiByPath(ctx, groupedApi, vfs)
@@ -137,7 +130,7 @@ function generateApiMethodCode(api: APIConfig) {
     api.bodyTypeIsFormData &&
       api.bodyType &&
       `* @param data FormData keys: [${Object.keys(
-        ('properties' in api.bodyType.schema && api.bodyType.schema.properties) || {}
+        ('properties' in api.bodyType.schema && api.bodyType.schema.properties) || {},
       ).join(', ')}]`,
     api.tags && `* @tags ${api.tags.join(', ')}`,
     '*/',

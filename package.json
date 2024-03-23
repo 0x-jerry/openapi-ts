@@ -44,11 +44,12 @@
   },
   "dependencies": {
     "@0x-jerry/utils": "^2.1.1",
-    "@biomejs/biome": "^1.5.3",
+    "json-schema-to-typescript": "^13.1.2",
     "lodash-es": "^4.17.21",
     "memfs": "^4.7.1",
     "openapi-typescript": "^6.7.4",
     "ora": "^8.0.1",
+    "prettier": "^3.2.5",
     "quicktype-core": "^23.0.104",
     "swagger2openapi": "^7.0.8"
   },

@@ -2,8 +2,6 @@ import { mkdirSync, writeFileSync } from 'fs'
 import { parseOpenAPI, type APIConfig } from './parser'
 import { type IFs } from 'memfs'
 import path from 'path'
-import { spawnSync } from 'child_process'
-import { fileURLToPath } from 'url'
 import { generateFromCtx } from './generator'
 
 export interface GenerateClientCodesOptions {
@@ -18,12 +16,14 @@ export interface GenerateClientCodesOptions {
    * @param api
    */
   filter?: (api: APIConfig) => boolean
+
+  format?: boolean
 }
 
 export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const option: Required<GenerateClientCodesOptions> = Object.assign(
-    { output: 'api/generated', filter: () => true },
-    opt
+    { output: 'api/generated', filter: () => true, format: false },
+    opt,
   )
 
   const result = await parseOpenAPI(option.schema)
@@ -32,6 +32,10 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
 
   const vfs = await generateFromCtx(result)
 
+  if (opt.format) {
+    await formatCodes(vfs.fs)
+  }
+
   return { option, fs: vfs }
 }
 
@@ -39,13 +43,29 @@ export async function generate(opt: GenerateClientCodesOptions) {
   const { option, fs: vfs } = await generateClientCodes(opt)
 
   writeToDisk(vfs.fs, option.output)
+}
 
-  const biomeBin = path.join(
-    fileURLToPath(import.meta.resolve('@biomejs/biome/package.json')),
-    '../bin/biome'
-  )
+async function formatCodes(vfs: IFs, dir: string = '/') {
+  const files = vfs.readdirSync(dir)
 
-  spawnSync(biomeBin, ['format', '--write', option.output])
+  for (const file of files) {
+    const filePath = path.join(dir, file.toString())
+    const isDirectory = vfs.statSync(filePath).isDirectory()
+
+    if (isDirectory) {
+      await formatCodes(vfs, filePath)
+    } else {
+      const prettier = await import('prettier')
+
+      const content = vfs.readFileSync(filePath)
+
+      const formattedContent = await prettier.format(content.toString(), {
+        parser: 'typescript',
+      })
+
+      vfs.writeFileSync(filePath, formattedContent)
+    }
+  }
 }
 
 function writeToDisk(vfs: IFs, output: string) {

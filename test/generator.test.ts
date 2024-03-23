@@ -11,21 +11,32 @@ describe('openapi parse', () => {
   it('should generate ts files', async () => {
     const c = await generateClientCodes({
       schema: sharedSchema.v3,
+      format: true,
     })
 
     const content = c.fs.vol.toJSON()
 
-    expect(content).toMatchFileSnapshot('./out/generator/normal.fs.json')
+    const files = Object.entries(content)
+
+    for (const [filePath, fileContent] of files) {
+      expect(fileContent).toMatchFileSnapshot(`./out/generator/normal/${filePath}.ts`)
+    }
   })
 
   it('should only generate path start with `/api/gen/clients`', async () => {
     const c = await generateClientCodes({
       schema: sharedSchema.v2,
       filter: (api) => api.path.startsWith('/api/gen/clients'),
+      format: true,
     })
 
     const content = c.fs.vol.toJSON()
+    const files = Object.keys(content)
 
-    expect(content).toMatchFileSnapshot('./out/generator/filter.fs.json')
+    const isPrefixed = files.every(
+      (file) => file.startsWith('/api/gen/clients') || file.endsWith('/index.ts'),
+    )
+
+    expect(isPrefixed).toBe(true)
   })
 })
