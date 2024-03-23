@@ -10,7 +10,7 @@ import type {
   SchemaObject,
 } from 'openapi-typescript'
 import { getRef } from './helper'
-import { PascalCase } from '@0x-jerry/utils'
+import { PascalCase, toArray } from '@0x-jerry/utils'
 import { unifySchema } from './normalize'
 import { convertPathToName } from './utils'
 
@@ -119,7 +119,7 @@ function parsePaths(ctx: ParserContext, paths: PathsObject) {
           ...op,
         },
         path,
-        method
+        method,
       )
 
       ctx.apis.push(api)
@@ -128,7 +128,7 @@ function parsePaths(ctx: ParserContext, paths: PathsObject) {
 }
 
 function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method: APIMethod) {
-  const params = op.parameters?.map((n) => getRef(ctx, n)) || []
+  const params = toArray(op.parameters || []).map((n) => getRef(ctx, n))
 
   const api: APIConfig = {
     name: convertPathToName(path),
@@ -195,7 +195,7 @@ function addApiTypeDef(api: APIConfig, name: string, schema: SchemaObject) {
 
 function parseResponseType(
   ctx: ParserContext,
-  responses?: Record<string, ReferenceObject | ResponseObject>
+  responses?: Record<string, ReferenceObject | ResponseObject>,
 ) {
   const content = getRef(ctx, responses?.['200'])?.content
 
@@ -218,7 +218,7 @@ function isFormData(ctx: ParserContext, body: RequestBodyObject | undefined): bo
 
 function parseRequestBodyType(
   ctx: ParserContext,
-  body: RequestBodyObject | undefined
+  body: RequestBodyObject | undefined,
 ): SchemaObject | null {
   const contentType = getRef(ctx, body?.content)
 
