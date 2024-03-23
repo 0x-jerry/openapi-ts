@@ -48,6 +48,7 @@
     "lodash-es": "^4.17.21",
     "memfs": "^4.7.1",
     "openapi-typescript": "^6.7.4",
+    "ora": "^8.0.1",
     "quicktype-core": "^23.0.104",
     "swagger2openapi": "^7.0.8"
   },

@@ -4,6 +4,8 @@ import { type IFs, Volume, createFsFromVolume } from 'memfs'
 import path, { dirname } from 'path'
 import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from './generateTypes'
+import ora from 'ora'
+import { createSpinner } from './utils'
 
 const config = {
   nameMapper: {
@@ -22,9 +24,20 @@ export async function generateFromCtx(ctx: ParserContext) {
   const vol = new Volume()
   const vfs = createFsFromVolume(vol)
 
-  const p = groupedApis.map((groupedApi) => generateApiByPath(ctx, groupedApi, vfs))
+  const spinner = createSpinner('Generate code from spec', groupedApis.length).start()
 
-  await Promise.all(p)
+  // const p = groupedApis.map(async (groupedApi) => {
+  //   await generateApiByPath(ctx, groupedApi, vfs)
+  //   spinner.plusOne()
+  // })
+  // await Promise.all(p)
+
+  for (const groupedApi of groupedApis) {
+    await generateApiByPath(ctx, groupedApi, vfs)
+    spinner.plusOne()
+  }
+
+  spinner.done()
 
   generateIndexFiles(vfs)
 

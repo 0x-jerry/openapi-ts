@@ -1,3 +1,5 @@
+import ora from 'ora'
+
 /**
  *
  * convert a url path to a valid interface name.
@@ -25,4 +27,31 @@ export function convertPathToName(path: string) {
         .join('')
     })
     .join('')
+}
+
+export function createSpinner(prefix: string, total: number) {
+  const spinner = ora(prefix)
+
+  const stats = {
+    total,
+    current: 0,
+  }
+
+  const actions = {
+    start() {
+      spinner.start()
+      return actions
+    },
+    plusOne() {
+      stats.current++
+      spinner.text = `${prefix}: ${stats.current}/${stats.total}`
+      spinner.render()
+    },
+    done(isFailed?: boolean) {
+      if (isFailed) spinner.fail()
+      else spinner.succeed()
+    },
+  }
+
+  return actions
 }
