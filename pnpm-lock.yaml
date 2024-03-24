@@ -42,7 +42,7 @@ optionalDependencies:
     version: 1.6.8
   ky:
     specifier: ^1.2.2
-    version: 1.2.2
+    version: 1.2.3
 
 devDependencies:
   '@0x-jerry/x-release':
@@ -1002,6 +1002,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
     optional: true
 
   /balanced-match@1.0.2:
@@ -1807,8 +1808,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ky@1.2.2:
-    resolution: {integrity: sha512-gYA2QOI3uIaImJPJjaBbLCdvKHzwxsuB03s7PjrXmoO6tcn6k53rwYoSRgqrmVsEV6wFFegOXDVjABxFZ0aRSg==}
+  /ky@1.2.3:
+    resolution: {integrity: sha512-2IM3VssHfG2zYz2FsHRUqIp8chhLc9uxDMcK2THxgFfv8pQhnMfN8L0ul+iW4RdBl5AglF8ooPIflRm3yNH0IA==}
     engines: {node: '>=18'}
     requiresBuild: true
     optional: true
