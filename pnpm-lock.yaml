@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@0x-jerry/utils':
     specifier: ^2.1.1
-    version: 2.1.1
+    version: 2.1.2
   fs-extra:
     specifier: ^11.2.0
     version: 11.2.0
@@ -42,7 +42,7 @@ optionalDependencies:
     version: 1.6.8
   ky:
     specifier: ^1.2.2
-    version: 1.2.2
+    version: 1.2.3
 
 devDependencies:
   '@0x-jerry/x-release':
@@ -82,8 +82,8 @@ packages:
     resolution: {integrity: sha512-aV1qnSbezqlm1M4z+ZjL62p3u5q21986c445KDwJH1zgIErBlefXLf3Tv/Cao8DzA5o2P5iGFpeP2JNjhFRbNQ==}
     dev: true
 
-  /@0x-jerry/utils@2.1.1:
-    resolution: {integrity: sha512-VNF9b4CFEW+I+hqmA/RKf7KrV9QXe4GCQS958iew0lvTqslaArYKk1gZvwj1zGCUwo6LBXCYEKjzPf5e/PEPBQ==}
+  /@0x-jerry/utils@2.1.2:
+    resolution: {integrity: sha512-Gd2bA/552B5FfcRCW0cd4skTtO61Abovl2phLgeGbmD60jgm6LuwwlpwdTEibtBzH24tpVyBfRAyhK71DZ02ig==}
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.6
@@ -1002,6 +1002,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
     optional: true
 
   /balanced-match@1.0.2:
@@ -1807,10 +1808,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ky@1.2.2:
-    resolution: {integrity: sha512-gYA2QOI3uIaImJPJjaBbLCdvKHzwxsuB03s7PjrXmoO6tcn6k53rwYoSRgqrmVsEV6wFFegOXDVjABxFZ0aRSg==}
+  /ky@1.2.3:
+    resolution: {integrity: sha512-2IM3VssHfG2zYz2FsHRUqIp8chhLc9uxDMcK2THxgFfv8pQhnMfN8L0ul+iW4RdBl5AglF8ooPIflRm3yNH0IA==}
     engines: {node: '>=18'}
     requiresBuild: true
+    dev: false
     optional: true
 
   /lilconfig@3.1.1:
