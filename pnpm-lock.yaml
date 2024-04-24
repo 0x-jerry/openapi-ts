@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@0x-jerry/utils':
         specifier: ^2.1.1
-        version: 2.1.1
+        version: 2.1.2
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -82,8 +82,8 @@ packages:
   '@0x-jerry/load-pkg@0.1.2':
     resolution: {integrity: sha512-aV1qnSbezqlm1M4z+ZjL62p3u5q21986c445KDwJH1zgIErBlefXLf3Tv/Cao8DzA5o2P5iGFpeP2JNjhFRbNQ==}
 
-  '@0x-jerry/utils@2.1.1':
-    resolution: {integrity: sha512-VNF9b4CFEW+I+hqmA/RKf7KrV9QXe4GCQS958iew0lvTqslaArYKk1gZvwj1zGCUwo6LBXCYEKjzPf5e/PEPBQ==}
+  '@0x-jerry/utils@2.1.2':
+    resolution: {integrity: sha512-Gd2bA/552B5FfcRCW0cd4skTtO61Abovl2phLgeGbmD60jgm6LuwwlpwdTEibtBzH24tpVyBfRAyhK71DZ02ig==}
 
   '@0x-jerry/x-release@1.0.0':
     resolution: {integrity: sha512-/H6mQPxxDzXlBXDFmzBZTxOn8Ig6dEtxT4Frr+TXUm8KSn6zGtpifna01Urq9fplFS520FCDvbiaKbm8lZBQbQ==}
@@ -1215,8 +1215,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@5.0.6:
-    resolution: {integrity: sha512-rRq0eMHoGZxlvaFOUdK1Ev83Bd1IgzzR+WJ3IbDJ7QOSdAxYjlurSPqFs9s4lJg29RT6nPwizFtJhQS6V5xgiA==}
+  nanoid@5.0.7:
+    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
     engines: {node: ^18 || >=20}
     hasBin: true
 
@@ -1819,10 +1819,10 @@ snapshots:
 
   '@0x-jerry/load-pkg@0.1.2': {}
 
-  '@0x-jerry/utils@2.1.1':
+  '@0x-jerry/utils@2.1.2':
     dependencies:
       fflate: 0.8.2
-      nanoid: 5.0.6
+      nanoid: 5.0.7
 
   '@0x-jerry/x-release@1.0.0':
     dependencies:
@@ -2867,7 +2867,7 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  nanoid@5.0.6: {}
+  nanoid@5.0.7: {}
 
   next-tick@1.1.0: {}
 
