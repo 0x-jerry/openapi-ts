@@ -66,13 +66,13 @@ importers:
         version: 1.4.0(vitest@1.4.0)
       tsup:
         specifier: ^8.0.2
-        version: 8.0.2(postcss@8.4.38)(typescript@5.4.3)
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
       tsx:
         specifier: ^4.7.1
         version: 4.7.1
       typescript:
         specifier: ^5.4.3
-        version: 5.4.3
+        version: 5.4.5
       vitest:
         specifier: 1.4.0
         version: 1.4.0(@types/node@20.11.30)(@vitest/ui@1.4.0)
@@ -1654,8 +1654,8 @@ packages:
   type@2.7.2:
     resolution: {integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==}
 
-  typescript@5.4.3:
-    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
+  typescript@5.4.5:
+    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3301,7 +3301,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsup@8.0.2(postcss@8.4.38)(typescript@5.4.3):
+  tsup@8.0.2(postcss@8.4.38)(typescript@5.4.5):
     dependencies:
       bundle-require: 4.0.2(esbuild@0.19.12)
       cac: 6.7.14
@@ -3319,7 +3319,7 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       postcss: 8.4.38
-      typescript: 5.4.3
+      typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -3335,7 +3335,7 @@ snapshots:
 
   type@2.7.2: {}
 
-  typescript@5.4.3: {}
+  typescript@5.4.5: {}
 
   ufo@1.5.3: {}
 
