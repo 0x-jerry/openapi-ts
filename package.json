@@ -41,32 +41,32 @@
   },
   "optionalDependencies": {
     "axios": "^1.6.8",
-    "ky": "^1.2.2"
+    "ky": "^1.2.4"
   },
   "dependencies": {
-    "@0x-jerry/utils": "^2.1.1",
+    "@0x-jerry/utils": "^2.1.2",
     "fs-extra": "^11.2.0",
     "json-schema-to-typescript": "^14.0.0",
     "lodash-es": "^4.17.21",
-    "memfs": "^4.8.0",
+    "memfs": "^4.8.2",
     "openapi-typescript": "^6.7.5",
     "ora": "^8.0.1",
     "prettier": "^3.2.5",
-    "quicktype-core": "^23.0.107",
+    "quicktype-core": "^23.0.151",
     "swagger2openapi": "^7.0.8"
   },
   "devDependencies": {
     "@0x-jerry/x-release": "^1.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^20.11.30",
-    "@vitest/coverage-v8": "^1.4.0",
-    "@vitest/ui": "^1.4.0",
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "^1.5.0",
+    "@vitest/ui": "^1.5.0",
     "axios": "^1.6.7",
     "ky": "^1.2.0",
     "tsup": "^8.0.2",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.3",
-    "vitest": "1.4.0"
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5",
+    "vitest": "1.5.0"
   }
 }
