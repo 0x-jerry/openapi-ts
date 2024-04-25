@@ -31,7 +31,7 @@ dependencies:
     version: 3.2.5
   quicktype-core:
     specifier: ^23.0.151
-    version: 23.0.151
+    version: 23.0.152
   swagger2openapi:
     specifier: ^7.0.8
     version: 7.0.8
@@ -1010,6 +1010,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
     optional: true
 
   /balanced-match@1.0.2:
@@ -1306,6 +1307,7 @@ packages:
     resolution: {integrity: sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.19.12
       '@esbuild/android-arm': 0.19.12
@@ -1336,6 +1338,7 @@ packages:
     resolution: {integrity: sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.20.2
       '@esbuild/android-arm': 0.20.2
@@ -1816,6 +1819,7 @@ packages:
     resolution: {integrity: sha512-CfSrf4a0yj1n6WgPT6kQNQOopIGLkQzqSAXo05oKByaH7G3SiqW4a8jGox0p9whMXqO49H7ljgigivrMyycAVA==}
     engines: {node: '>=18'}
     requiresBuild: true
+    dev: false
     optional: true
 
   /lilconfig@3.1.1:
@@ -2323,8 +2327,8 @@ packages:
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  /quicktype-core@23.0.151:
-    resolution: {integrity: sha512-Iu/oGQZ/s9+rJqsXcclJxPYE3PKkEEZMZMb1Zg9YCwIZVy15sKjH1UiGt5tDdtLmVcnaEg0MOxoLmTF1Mlf2jg==}
+  /quicktype-core@23.0.152:
+    resolution: {integrity: sha512-3w7Acz4ZvOfdVuoe20FBeWNfA3bIC8og2Gz6hZor0l4jnAnX6b/6nJE/Q5kdbyBWqXpiTRqL/2NBtMkyDT7R/Q==}
     dependencies:
       '@glideapps/ts-necessities': 2.2.3
       '@types/urijs': 1.19.25
