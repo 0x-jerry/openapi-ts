@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@0x-jerry/utils':
     specifier: ^2.1.2
-    version: 2.1.2
+    version: 2.2.3
   fs-extra:
     specifier: ^11.2.0
     version: 11.2.0
@@ -82,11 +82,12 @@ packages:
     resolution: {integrity: sha512-aV1qnSbezqlm1M4z+ZjL62p3u5q21986c445KDwJH1zgIErBlefXLf3Tv/Cao8DzA5o2P5iGFpeP2JNjhFRbNQ==}
     dev: true
 
-  /@0x-jerry/utils@2.1.2:
-    resolution: {integrity: sha512-Gd2bA/552B5FfcRCW0cd4skTtO61Abovl2phLgeGbmD60jgm6LuwwlpwdTEibtBzH24tpVyBfRAyhK71DZ02ig==}
+  /@0x-jerry/utils@2.2.3:
+    resolution: {integrity: sha512-S6cONqj7BIpHa+FUnEJmTbxy0megrzz0h3p1wc44RFoo7FKgmVoCYX0hM4yESCgw3uh3VFxMhZGpmxGU4i35dw==}
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.7
+      picocolors: 1.0.0
     dev: false
 
   /@0x-jerry/x-release@1.0.0:
@@ -1010,6 +1011,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
     optional: true
 
   /balanced-match@1.0.2:
@@ -1306,6 +1308,7 @@ packages:
     resolution: {integrity: sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.19.12
       '@esbuild/android-arm': 0.19.12
@@ -1336,6 +1339,7 @@ packages:
     resolution: {integrity: sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.20.2
       '@esbuild/android-arm': 0.20.2
@@ -1816,6 +1820,7 @@ packages:
     resolution: {integrity: sha512-CfSrf4a0yj1n6WgPT6kQNQOopIGLkQzqSAXo05oKByaH7G3SiqW4a8jGox0p9whMXqO49H7ljgigivrMyycAVA==}
     engines: {node: '>=18'}
     requiresBuild: true
+    dev: false
     optional: true
 
   /lilconfig@3.1.1:
@@ -2232,7 +2237,6 @@ packages:
 
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-    dev: true
 
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
