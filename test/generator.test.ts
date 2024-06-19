@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { generateClientCodes } from '../src'
+import { expectMatchOutput } from './_utils'
 
 const sharedSchema = Object.freeze({
   v3: JSON.parse(readFileSync(join(__dirname, 'schema/v3.json'), { encoding: 'utf8' })),
@@ -14,13 +15,8 @@ describe('openapi parse', () => {
       format: true,
     })
 
-    const content = c.fs.vol.toJSON()
-
-    const files = Object.entries(content)
-
-    for (const [filePath, fileContent] of files) {
-      expect(fileContent).toMatchFileSnapshot(`./out/generator/normal/${filePath}.ts`)
-    }
+    const outputDir = `./out/generator/normal`
+    expectMatchOutput(c.fs.vol, outputDir)
   })
 
   it('should only generate path start with `/api/gen/clients`', async () => {

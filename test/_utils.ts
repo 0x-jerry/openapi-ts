@@ -8,6 +8,6 @@ export function expectMatchOutput(vfs: Volume, outputDir: string) {
   const files = Object.entries(content)
 
   for (const [filePath, fileContent] of files) {
-    expect(fileContent).toMatchFileSnapshot(path.join(outputDir, filePath + '.ts'))
+    expect(fileContent).toMatchFileSnapshot(path.join(outputDir, filePath))
   }
 }
