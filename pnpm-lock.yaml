@@ -68,7 +68,7 @@ devDependencies:
     version: 8.1.0(typescript@5.4.5)
   tsx:
     specifier: ^4.15.6
-    version: 4.15.6
+    version: 4.15.7
   typescript:
     specifier: ^5.4.5
     version: 5.4.5
@@ -1032,6 +1032,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
     optional: true
 
   /balanced-match@1.0.2:
@@ -1338,6 +1339,7 @@ packages:
     resolution: {integrity: sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.20.2
       '@esbuild/android-arm': 0.20.2
@@ -1368,6 +1370,7 @@ packages:
     resolution: {integrity: sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==}
     engines: {node: '>=12'}
     hasBin: true
+    requiresBuild: true
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.21.5
       '@esbuild/android-arm': 0.21.5
@@ -1688,7 +1691,7 @@ packages:
       jiti: 1.21.6
       pathe: 1.1.2
       pkg-types: 1.1.1
-      tsx: 4.15.6
+      tsx: 4.15.7
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1869,6 +1872,7 @@ packages:
     resolution: {integrity: sha512-QUViPXlgP6NKA57IAPff/aZSmRA6qs9wKxlEpayBorwRZG+x2LG7jD4kXh8lnH3q/gkUr64NyZ7kwErUEZJmlw==}
     engines: {node: '>=18'}
     requiresBuild: true
+    dev: false
     optional: true
 
   /lilconfig@3.1.2:
@@ -2836,8 +2840,8 @@ packages:
       - ts-node
     dev: true
 
-  /tsx@4.15.6:
-    resolution: {integrity: sha512-is0VQQlfNZRHEuSSTKA6m4xw74IU4AizmuB6lAYLRt9XtuyeQnyJYexhNZOPCB59SqC4JzmSzPnHGBXxf3k0hA==}
+  /tsx@4.15.7:
+    resolution: {integrity: sha512-u3H0iSFDZM3za+VxkZ1kywdCeHCn+8/qHQS1MNoO2sONDgD95HlWtt8aB23OzeTmFP9IU4/8bZUdg58Uu5J4cg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
