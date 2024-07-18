@@ -1,3 +1,4 @@
+import ora from 'ora'
 import { generate } from '../src'
 import { sliver } from '@0x-jerry/silver'
 
@@ -18,7 +19,11 @@ async function defaultAction(params: string[], arg: { output?: string; format?: 
     return false
   }
 
+  const spinner = ora(`Fetching schema from ${schemaUrl}`).start()
+
   const swaggerSchema = await (await fetch(schemaUrl)).json()
+
+  spinner.stop()
 
   const { output = 'src/api', format = true } = arg
 
