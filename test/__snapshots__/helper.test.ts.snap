@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`helper > replaceSchemaType 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "format": undefined,
+      "nullable": true,
+      "readOnly": true,
+      "type": "number",
+    },
+    "name": {
+      "format": undefined,
+      "nullable": true,
+      "readOnly": true,
+      "type": "number",
+    },
+  },
+  "type": "object",
+}
+`;

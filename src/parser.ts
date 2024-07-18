@@ -10,7 +10,7 @@ import type {
   SchemaObject,
 } from 'openapi-typescript'
 import { getRef } from './helper'
-import { PascalCase, toArray } from '@0x-jerry/utils'
+import { ensureArray, PascalCase } from '@0x-jerry/utils'
 import { unifySchema } from './normalize'
 import { convertPathToName } from './utils'
 
@@ -128,7 +128,7 @@ function parsePaths(ctx: ParserContext, paths: PathsObject) {
 }
 
 function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method: APIMethod) {
-  const params = toArray(op.parameters || []).map((n) => getRef(ctx, n))
+  const params = ensureArray(op.parameters || []).map((n) => getRef(ctx, n))
 
   const api: APIConfig = {
     name: convertPathToName(path),
@@ -267,7 +267,7 @@ function parsePathParams(params: ParameterObject[], path: string): SchemaObject 
   pathParams.forEach((param) => {
     schema.properties![param.name!] = {
       description: param.description,
-      ...param.schema,
+      ...param.schema!,
     }
 
     pathParamsList.splice(pathParamsList.indexOf(param.name!), 1)

@@ -1,12 +1,13 @@
 import type { OpenAPI3, ReferenceObject, SchemaObject } from 'openapi-typescript'
-import { type Arrayable, toArray } from '@0x-jerry/utils'
+import { type Arrayable, ensureArray } from '@0x-jerry/utils'
 import type { ParserContext } from './parser'
 
 export interface ReplaceSchemaTypeConfig {
   type: string
-  format: string[]
+  format?: string[]
 
   targetType: string
+  targetFormat?: string
 }
 
 /**
@@ -27,14 +28,14 @@ export interface ReplaceSchemaTypeConfig {
  * @param opt
  */
 export function replaceSchemaType(ctx: ParserContext, opt: Arrayable<ReplaceSchemaTypeConfig>) {
-  const schema: SchemaObject = ctx.schema
+  const schemas: SchemaObject[] = Object.values(ctx.schema.components?.schemas || {})
 
-  const conf = toArray(opt)
+  const conf = ensureArray(opt)
 
   // fix endless loop
   const visited = new Set<SchemaObject>()
 
-  fixType(schema)
+  schemas.forEach((schema) => fixType(schema))
 
   function fixType(schema: SchemaObject) {
     if (visited.has(schema)) {
@@ -53,20 +54,23 @@ export function replaceSchemaType(ctx: ParserContext, opt: Arrayable<ReplaceSche
       }
     } else if (schema.type === 'array') {
       if (schema.items) {
-        const items = toArray(schema.items)
+        const items = ensureArray(schema.items)
         for (const item of items) {
           fixType(getRef(ctx, item))
         }
       }
     } else {
       for (const item of conf) {
-        const isTarget =
-          schema.type === item.type && schema.format && item.format.includes(schema.format)
+        const isTheSameType = schema.type === item.type
+        const hasFormat = item.format ? item.format.includes(schema.format!) : true
 
-        if (isTarget) {
+        if (isTheSameType && hasFormat) {
           // @ts-ignore
           schema.type = item.targetType
+          schema.format = item.targetFormat
         }
+
+        console.log(isTheSameType, hasFormat, schema)
       }
     }
   }
@@ -78,7 +82,7 @@ export function getRef<T>(
   ctx: {
     schema: OpenAPI3
   },
-  type: T
+  type: T,
 ): DereferenceObject<T> {
   if (!isRef(type)) {
     return type as any
