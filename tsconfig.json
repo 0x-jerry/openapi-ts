@@ -5,7 +5,6 @@
     "strict": true,
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
@@ -13,6 +12,6 @@
     "outDir": "dist",
     "types": ["vitest/globals"]
   },
-  "include": ["src", "test", "runtime"],
+  "include": ["src", "test", "runtime", "cli"],
   "exclude": ["test/out"]
 }
