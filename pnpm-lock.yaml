@@ -25,7 +25,7 @@ importers:
         version: 4.17.21
       memfs:
         specifier: ^4.9.3
-        version: 4.9.3
+        version: 4.9.4
       openapi-typescript:
         specifier: ^7.0.4
         version: 7.0.4(typescript@5.5.3)
@@ -1352,8 +1352,8 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
 
-  memfs@4.9.3:
-    resolution: {integrity: sha512-bsYSSnirtYTWi1+OPMFb0M048evMKyUYe0EbtuGQgq6BVQM1g1W8/KIUJCCvjgI/El0j6Q4WsmMiBwLUBSw8LA==}
+  memfs@4.9.4:
+    resolution: {integrity: sha512-Xlj8b2rU11nM6+KU6wC7cuWcHQhVINWCUgdPS4Ar9nPxLaOya3RghqK7ALyDW2QtGebYAYs6uEdEVnwPVT942A==}
     engines: {node: '>= 4.0.0'}
 
   memoizee@0.4.17:
@@ -3195,7 +3195,7 @@ snapshots:
     dependencies:
       semver: 7.6.3
 
-  memfs@4.9.3:
+  memfs@4.9.4:
     dependencies:
       '@jsonjoy.com/json-pack': 1.0.4(tslib@2.6.3)
       '@jsonjoy.com/util': 1.2.0(tslib@2.6.3)
