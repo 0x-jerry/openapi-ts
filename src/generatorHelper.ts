@@ -80,7 +80,7 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
 
     if (isDirectory) {
       await formatCodes(vfs, filePath)
-    } else {
+    } else if (filePath.endsWith('.ts')) {
       const prettier = await import('prettier')
 
       const content = vfs.readFileSync(filePath)

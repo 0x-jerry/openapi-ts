@@ -1,4 +1,4 @@
-import { groupBy, toUpper } from 'lodash-es'
+import { groupBy } from 'lodash-es'
 import type { ParserContext, APIConfig, APIParameterConfig } from './parser'
 import { type IFs } from 'memfs'
 import path, { dirname } from 'path'
