@@ -1,11 +1,8 @@
 import { generate } from '../src'
-
-const apiUrl = 'https://0x-jerry.icu/_openapi'
-
-const swaggerSchema = await (await fetch(apiUrl)).json()
+import schema from './schema/halo.json'
 
 await generate({
-  schema: swaggerSchema,
+  schema: schema,
   output: 'temp/generated',
   format: true,
   clean: true,
