@@ -40,7 +40,7 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const ctx: GeneratorContext = {
     ...parser,
     vol,
-    fs: createFsFromVolume(vol)
+    fs: createFsFromVolume(vol),
   }
 
   await generateFromCtx(ctx)
@@ -57,16 +57,16 @@ export async function generate(opt: GenerateClientCodesOptions) {
     {
       output: 'api/generated',
       format: false,
-      clean: false
+      clean: false,
     },
-    opt
+    opt,
   )
 
   const ctx = await generateClientCodes(opt)
 
   if (option.output) {
     await writeToDisk(ctx.fs, option.output, {
-      clean: opt.clean
+      clean: opt.clean,
     })
   }
 }
@@ -87,7 +87,7 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
 
       try {
         const formattedContent = await prettier.format(content.toString(), {
-          parser: 'typescript'
+          parser: 'typescript',
         })
         vfs.writeFileSync(filePath, formattedContent)
       } catch (error) {
@@ -97,11 +97,7 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
   }
 }
 
-async function writeToDisk(
-  vfs: IFs,
-  output: string,
-  opt: { clean?: boolean } = {}
-) {
+async function writeToDisk(vfs: IFs, output: string, opt: { clean?: boolean } = {}) {
   const out = path.resolve(output)
 
   if (opt.clean && (await fsp.pathExists(out))) {
