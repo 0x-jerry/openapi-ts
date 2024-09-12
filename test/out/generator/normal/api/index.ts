@@ -1,3 +1,3 @@
 //@ts-ignore
 //@ts-nocheck
-export * as Pay from "./Pay.ts";
+export * as pay from "./Pay.ts";
