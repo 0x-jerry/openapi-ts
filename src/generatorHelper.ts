@@ -1,8 +1,9 @@
 import fsp from 'fs-extra'
 import { parseOpenAPI, type APIConfig } from './parser'
-import { type IFs } from 'memfs'
+import { createFsFromVolume, type IFs } from 'memfs'
 import path from 'path'
-import { generateFromCtx } from './generator'
+import { generateFromCtx, type GeneratorContext } from './generator'
+import { Volume } from 'memfs/lib/volume'
 
 export interface GenerateClientCodesOptions {
   schema: any
@@ -29,30 +30,45 @@ export interface GenerateClientCodesOptions {
 }
 
 export async function generateClientCodes(opt: GenerateClientCodesOptions) {
-  const option: Required<GenerateClientCodesOptions> = Object.assign(
-    { output: 'api/generated', filter: () => true, format: false, clean: false },
-    opt,
-  )
+  const parser = await parseOpenAPI(opt.schema)
 
-  const result = await parseOpenAPI(option.schema)
-
-  result.apis = result.apis.filter(option.filter)
-
-  const vfs = await generateFromCtx(result)
-
-  if (opt.format) {
-    await formatCodes(vfs.fs)
+  if (opt.filter) {
+    parser.apis = parser.apis.filter(opt.filter)
   }
 
-  return { option, fs: vfs }
+  const vol = new Volume()
+  const ctx: GeneratorContext = {
+    ...parser,
+    vol,
+    fs: createFsFromVolume(vol)
+  }
+
+  await generateFromCtx(ctx)
+
+  if (opt.format) {
+    await formatCodes(ctx.fs)
+  }
+
+  return ctx
 }
 
 export async function generate(opt: GenerateClientCodesOptions) {
-  const { option, fs: vfs } = await generateClientCodes(opt)
+  const option: GenerateClientCodesOptions = Object.assign(
+    {
+      output: 'api/generated',
+      format: false,
+      clean: false
+    },
+    opt
+  )
 
-  await writeToDisk(vfs.fs, option.output, {
-    clean: opt.clean,
-  })
+  const ctx = await generateClientCodes(opt)
+
+  if (option.output) {
+    await writeToDisk(ctx.fs, option.output, {
+      clean: opt.clean
+    })
+  }
 }
 
 async function formatCodes(vfs: IFs, dir: string = '/') {
@@ -71,7 +87,7 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
 
       try {
         const formattedContent = await prettier.format(content.toString(), {
-          parser: 'typescript',
+          parser: 'typescript'
         })
         vfs.writeFileSync(filePath, formattedContent)
       } catch (error) {
@@ -81,7 +97,11 @@ async function formatCodes(vfs: IFs, dir: string = '/') {
   }
 }
 
-async function writeToDisk(vfs: IFs, output: string, opt: { clean?: boolean } = {}) {
+async function writeToDisk(
+  vfs: IFs,
+  output: string,
+  opt: { clean?: boolean } = {}
+) {
   const out = path.resolve(output)
 
   if (opt.clean && (await fsp.pathExists(out))) {
