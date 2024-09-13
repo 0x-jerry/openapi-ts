@@ -16,6 +16,7 @@
         }
       }
     },
+    "refTypes": {},
     "responseType": {
       "name": "ApiGenClientsGetResponse",
       "schema": {
@@ -53,6 +54,35 @@
         "additionalProperties": {
           "$ref": "#/components/schemas/CliOption"
         }
+      }
+    },
+    "refTypes": {
+      "#/components/schemas/CliOption": {
+        "type": "object",
+        "properties": {
+          "default": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "opt": {
+            "type": "string"
+          },
+          "optValue": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "CliOption"
       }
     },
     "paramsType": {
@@ -104,6 +134,14 @@
         ]
       },
       "ApiGenClientsLanguagePostRequestBody": {
+        "$ref": "#/components/schemas/GeneratorInput"
+      },
+      "ApiGenClientsLanguagePostResponse": {
+        "$ref": "#/components/schemas/ResponseCode"
+      }
+    },
+    "refTypes": {
+      "#/components/schemas/GeneratorInput": {
         "type": "object",
         "properties": {
           "authorizationValue": {
@@ -125,7 +163,29 @@
         },
         "title": "GeneratorInput"
       },
-      "ApiGenClientsLanguagePostResponse": {
+      "#/components/schemas/AuthorizationValue": {
+        "type": "object",
+        "properties": {
+          "keyName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "urlMatcher": {
+            "$ref": "#/components/schemas/PredicateOfURL"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "title": "AuthorizationValue"
+      },
+      "#/components/schemas/PredicateOfURL": {
+        "type": "object",
+        "title": "PredicateOfURL"
+      },
+      "#/components/schemas/ResponseCode": {
         "type": "object",
         "properties": {
           "code": {
@@ -160,45 +220,13 @@
     "bodyType": {
       "name": "ApiGenClientsLanguagePostRequestBody",
       "schema": {
-        "type": "object",
-        "properties": {
-          "authorizationValue": {
-            "$ref": "#/components/schemas/AuthorizationValue"
-          },
-          "openAPIUrl": {
-            "type": "string",
-            "example": "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
-          },
-          "options": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          },
-          "spec": {
-            "type": "object"
-          }
-        },
-        "title": "GeneratorInput"
+        "$ref": "#/components/schemas/GeneratorInput"
       }
     },
     "responseType": {
       "name": "ApiGenClientsLanguagePostResponse",
       "schema": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "d40029be-eda6-4d62-b1ef-d05e2e91a72a",
-            "description": "File download code"
-          },
-          "link": {
-            "type": "string",
-            "example": "http://localhost:8080/api/gen/download/d40029be-eda6-4d62-b1ef-d05e2e91a72a",
-            "description": "URL for fetching the generated client"
-          }
-        },
-        "title": "ResponseCode"
+        "$ref": "#/components/schemas/ResponseCode"
       }
     }
   },
@@ -227,6 +255,7 @@
         ]
       }
     },
+    "refTypes": {},
     "paramsType": {
       "name": "ApiGenDownloadFileIdGetParam",
       "schema": {
@@ -260,6 +289,7 @@
         }
       }
     },
+    "refTypes": {},
     "responseType": {
       "name": "ApiGenServersGetResponse",
       "schema": {
@@ -297,6 +327,35 @@
         "additionalProperties": {
           "$ref": "#/components/schemas/CliOption"
         }
+      }
+    },
+    "refTypes": {
+      "#/components/schemas/CliOption": {
+        "type": "object",
+        "properties": {
+          "default": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "opt": {
+            "type": "string"
+          },
+          "optValue": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "CliOption"
       }
     },
     "paramsType": {
@@ -348,6 +407,14 @@
         ]
       },
       "ApiGenServersFrameworkPostRequestBody": {
+        "$ref": "#/components/schemas/GeneratorInput"
+      },
+      "ApiGenServersFrameworkPostResponse": {
+        "$ref": "#/components/schemas/ResponseCode"
+      }
+    },
+    "refTypes": {
+      "#/components/schemas/GeneratorInput": {
         "type": "object",
         "properties": {
           "authorizationValue": {
@@ -369,7 +436,29 @@
         },
         "title": "GeneratorInput"
       },
-      "ApiGenServersFrameworkPostResponse": {
+      "#/components/schemas/AuthorizationValue": {
+        "type": "object",
+        "properties": {
+          "keyName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "urlMatcher": {
+            "$ref": "#/components/schemas/PredicateOfURL"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "title": "AuthorizationValue"
+      },
+      "#/components/schemas/PredicateOfURL": {
+        "type": "object",
+        "title": "PredicateOfURL"
+      },
+      "#/components/schemas/ResponseCode": {
         "type": "object",
         "properties": {
           "code": {
@@ -404,45 +493,13 @@
     "bodyType": {
       "name": "ApiGenServersFrameworkPostRequestBody",
       "schema": {
-        "type": "object",
-        "properties": {
-          "authorizationValue": {
-            "$ref": "#/components/schemas/AuthorizationValue"
-          },
-          "openAPIUrl": {
-            "type": "string",
-            "example": "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
-          },
-          "options": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          },
-          "spec": {
-            "type": "object"
-          }
-        },
-        "title": "GeneratorInput"
+        "$ref": "#/components/schemas/GeneratorInput"
       }
     },
     "responseType": {
       "name": "ApiGenServersFrameworkPostResponse",
       "schema": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "d40029be-eda6-4d62-b1ef-d05e2e91a72a",
-            "description": "File download code"
-          },
-          "link": {
-            "type": "string",
-            "example": "http://localhost:8080/api/gen/download/d40029be-eda6-4d62-b1ef-d05e2e91a72a",
-            "description": "URL for fetching the generated client"
-          }
-        },
-        "title": "ResponseCode"
+        "$ref": "#/components/schemas/ResponseCode"
       }
     }
   }

@@ -9,7 +9,7 @@ import type {
   ResponseObject,
   SchemaObject,
 } from 'openapi-typescript'
-import { getRef } from './helper'
+import { getRef, isRef } from './helper'
 import { ensureArray, PascalCase } from '@0x-jerry/utils'
 import { unifySchema } from './normalize'
 import { convertPathToName } from './utils'
@@ -27,9 +27,11 @@ export type APIMethod = (typeof METHODS)[number]
 
 export type InType = 'query' | 'header' | 'path' | 'cookie' | 'formData' | 'body'
 
+type IJSONSchema = SchemaObject | ReferenceObject
+
 export interface APIParameterConfig {
   name: string
-  schema: SchemaObject
+  schema: IJSONSchema
 }
 
 export interface APIConfig {
@@ -69,7 +71,15 @@ export interface APIConfig {
 
   responseType?: APIParameterConfig
 
-  types: Record<string, SchemaObject>
+  /**
+   * all output types
+   */
+  types: Record<string, IJSONSchema>
+
+  /**
+   * reference types
+   */
+  refTypes: Record<string, IJSONSchema>
 }
 
 export interface ParserContext {
@@ -139,6 +149,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
     method: method,
     bodyTypeIsFormData: method === 'get' ? false : isFormData(ctx, getRef(ctx, op.requestBody)),
     types: {},
+    refTypes: {},
   }
 
   const paramsTypeSchema = parsePathParams(params, path)
@@ -186,11 +197,58 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
     }
   }
 
+  // generate refTypes
+  api.refTypes = generateRefTypes(ctx, api.types)
   return api
 }
 
-function addApiTypeDef(api: APIConfig, name: string, schema: SchemaObject) {
+function addApiTypeDef(api: APIConfig, name: string, schema: IJSONSchema) {
   api.types[name] = schema
+}
+
+function generateRefTypes(ctx: ParserContext, types: APIConfig['types']) {
+  const schemas = Object.values(types)
+  const result: APIConfig['refTypes'] = {}
+
+  const processed = new Set<IJSONSchema>()
+
+  for (const schema of schemas) {
+    searchRefType(ctx, schema)
+  }
+
+  return result
+
+  function searchRefType(ctx: ParserContext, schema: IJSONSchema): void {
+    if (processed.has(schema)) {
+      return
+    }
+
+    processed.add(schema)
+
+    if (isRef(schema)) {
+      const s = getRef(ctx, schema)
+
+      result[schema.$ref] = s
+
+      searchRefType(ctx, s)
+    } else if (schema.type === 'object') {
+      const schemas = Object.values(schema.properties || {})
+
+      for (const prop of schemas) {
+        searchRefType(ctx, prop)
+      }
+
+      if (schema.additionalProperties) {
+        searchRefType(ctx, schema.additionalProperties as IJSONSchema)
+      }
+    } else if (schema.type === 'array') {
+      const schemas = ensureArray(schema.items)
+
+      for (const schema of schemas) {
+        searchRefType(ctx, schema)
+      }
+    }
+  }
 }
 
 function parseResponseType(
@@ -199,9 +257,7 @@ function parseResponseType(
 ) {
   const content = getRef(ctx, responses?.['200'])?.content
 
-  let schema = (content?.['application/json'] || content?.['*/*'])?.schema
-
-  schema = getRef(ctx, schema)
+  const schema = (content?.['application/json'] || content?.['*/*'])?.schema
 
   return schema || null
 }
@@ -219,7 +275,7 @@ function isFormData(ctx: ParserContext, body: RequestBodyObject | undefined): bo
 function parseRequestBodyType(
   ctx: ParserContext,
   body: RequestBodyObject | undefined,
-): SchemaObject | null {
+): IJSONSchema | null {
   const contentType = getRef(ctx, body?.content)
 
   if (!contentType) return null
@@ -228,7 +284,7 @@ function parseRequestBodyType(
     contentType['application/json'] ||
     contentType['multipart/form-data']) as MediaTypeObject
 
-  return getRef(ctx, content?.schema!)
+  return content?.schema || null
 }
 
 function parseQueryParams(parameters: ParameterObject[]): SchemaObject | null {

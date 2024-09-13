@@ -9,6 +9,11 @@
     "bodyTypeIsFormData": false,
     "types": {
       "ApiPayGetResponse": {
+        "$ref": "#/components/schemas/Employee"
+      }
+    },
+    "refTypes": {
+      "#/components/schemas/Employee": {
         "type": "object",
         "properties": {
           "id": {
@@ -28,20 +33,7 @@
     "responseType": {
       "name": "ApiPayGetResponse",
       "schema": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
+        "$ref": "#/components/schemas/Employee"
       }
     }
   },
@@ -68,6 +60,7 @@
         ]
       }
     },
+    "refTypes": {},
     "bodyType": {
       "name": "ApiPayPostRequestBody",
       "schema": {

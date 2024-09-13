@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash-es'
+import { groupBy, set } from 'lodash-es'
 import type { ParserContext, APIConfig, APIParameterConfig } from './parser'
 import { type IFs } from 'memfs'
 import path, { dirname } from 'path'
@@ -107,11 +107,17 @@ async function generateApiByPath(ctx: ParserContext, groupedApi: APIConfig[], fs
   const types = Object.assign({}, ...groupedApi.map((item) => item.types))
 
   const schema: SchemaObject = {
-    ...ctx.schema,
     type: 'object',
     properties: types,
     required: Object.keys(types),
   }
+
+  const refTypes = Object.assign({}, ...groupedApi.map((item) => item.refTypes))
+
+  Object.entries(refTypes).forEach(([key, refSchema]) => {
+    const paths = key.split('/').slice(1)
+    set(schema, paths, refSchema)
+  })
 
   const typeCodes = await generateInterface(config.nameMapper.apiModel, schema)
   codes.push(typeCodes)
