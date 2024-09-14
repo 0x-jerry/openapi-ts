@@ -48,7 +48,7 @@
     "ky": "^1.7.2"
   },
   "dependencies": {
-    "@0x-jerry/silver": "^1.0.3",
+    "@0x-jerry/silver": "^1.1.1",
     "@0x-jerry/utils": "^3.0.0",
     "fs-extra": "^11.2.0",
     "json-schema-to-typescript": "^15.0.2",

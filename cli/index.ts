@@ -1,9 +1,10 @@
 import ora from 'ora'
 import { generate } from '../src'
 import { sliver } from '@0x-jerry/silver'
+import { version } from '../package.json'
 
 sliver`
-@help
+v${version}
 
 o2ts <openapi-schema-url>, Convert openapi/swagger schema to typescript code, support ky/axios runtime out of box. ${defaultAction}
 
