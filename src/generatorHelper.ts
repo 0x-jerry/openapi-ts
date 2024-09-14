@@ -1,9 +1,8 @@
 import fsp from 'fs-extra'
 import { parseOpenAPI, type APIConfig } from './parser'
-import { createFsFromVolume, type IFs } from 'memfs'
+import { createFsFromVolume, Volume, type IFs } from 'memfs'
 import path from 'path'
 import { generateFromCtx, type GeneratorContext } from './generator'
-import { Volume } from 'memfs/lib/volume'
 
 export interface GenerateClientCodesOptions {
   schema: any
