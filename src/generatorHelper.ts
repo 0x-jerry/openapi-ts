@@ -6,6 +6,12 @@ import { generateFromCtx, type GeneratorContext } from './generator'
 
 export interface GenerateClientCodesOptions {
   schema: any
+
+  /**
+   * @default 'nested'
+   */
+  apiStyle: 'flatten' | 'nested'
+
   /**
    * @default 'api/generated'
    */
