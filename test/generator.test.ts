@@ -35,4 +35,15 @@ describe('openapi parse', () => {
 
     expect(isPrefixed).toBe(true)
   })
+
+  it('should generate flatten style code', async () => {
+    const c = await generateClientCodes({
+      apiStyle: 'flatten',
+      schema: sharedSchema.v3,
+      format: true,
+    })
+
+    const outputDir = './out/generator/flatten'
+    expectMatchOutput(c.vol, outputDir)
+  })
 })

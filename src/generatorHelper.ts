@@ -35,7 +35,7 @@ export interface GenerateClientCodesOptions {
   clean?: boolean
 }
 
-async function generateClientCodes(opt: GenerateClientCodesOptions) {
+export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const parser = await parseOpenAPI(opt.schema)
 
   if (opt.filter) {
