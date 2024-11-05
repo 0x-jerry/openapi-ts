@@ -1,6 +1,6 @@
 {
   "name": "@0x-jerry/openapi-ts",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "This package provide a quick way to transform OpenAPI schema or Swagger schema to client typescript code.",
   "type": "module",
   "bin": {
