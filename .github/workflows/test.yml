@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install pnpm
-        run: curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@8
+        run: curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
