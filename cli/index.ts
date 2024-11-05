@@ -9,11 +9,14 @@ v${version}
 o2ts <openapi-schema-url>, Convert openapi/swagger schema to typescript code, support ky/axios runtime out of box. ${defaultAction}
 
 --output @string, Output dir for typescript code.
-
 --format @bool, Format the output code.
+--style  @string, Generated code style, 'flatten' or 'nested', default is 'nested'.
 `
 
-async function defaultAction(params: string[], arg: { output?: string; format?: boolean }) {
+async function defaultAction(
+  params: string[],
+  arg: { output?: string; format?: boolean; style?: string },
+) {
   const [schemaUrl] = params
   if (!schemaUrl) {
     console.log('Please specify the openapi schema url!')
@@ -27,10 +30,12 @@ async function defaultAction(params: string[], arg: { output?: string; format?: 
   spinner.stop()
 
   const { output = 'src/api', format = true } = arg
+  const apiStyle = arg.style === 'nested' ? 'nested' : 'flatten'
 
   await generate({
     schema: swaggerSchema,
     output: output,
     format: format,
+    apiStyle,
   })
 }
