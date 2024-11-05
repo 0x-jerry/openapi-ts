@@ -21,7 +21,7 @@ await generate({
 })
 ```
 
-2. Implement custom API adaptor `api/_adapter.ts`
+2. Implement custom API adapter `api/_adapter.ts`
 
 ```ts
 import { type RequestParams } from '@0x-jerry/openapi-ts/runtime'

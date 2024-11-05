@@ -58,13 +58,10 @@ function generateIndexFiles(vfs: IFs) {
       const tsFiles = files.filter((n) => n.endsWith('.ts'))
       const theSameNameFolder = files.filter((item) => tsFiles.includes(`${item}.ts`))
 
+      const extraExports: string[] = []
       // biome-ignore lint/complexity/noForEach: <explanation>
       theSameNameFolder.forEach((name) => {
-        const _file = path.join(input, `${name}.ts`)
-        let code = vfs.readFileSync(_file)
-        code = [code, `export * from './${name}/index.ts'`].join('\n\n')
-
-        vfs.writeFileSync(_file, code)
+        extraExports.push(`export * from './${name}/index.ts'`)
       })
 
       const includeFiles = files.filter((n) => !theSameNameFolder.includes(n))
@@ -86,7 +83,7 @@ function generateIndexFiles(vfs: IFs) {
         return `export {${funcitonNames.join(',')}} from './${item}'`
       })
 
-      const codes = ['//@ts-ignore\n//@ts-nocheck', ...indexFileCodes]
+      const codes = ['//@ts-ignore\n//@ts-nocheck', ...indexFileCodes, ...extraExports]
 
       vfs.writeFileSync(path.join(input, 'index.ts'), codes.join('\n'))
     }
