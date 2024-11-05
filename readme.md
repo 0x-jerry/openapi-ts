@@ -24,13 +24,13 @@ await generate({
 2. Implement custom API adaptor `api/_adapter.ts`
 
 ```ts
-import { type RequestParams } from '@0x-jerry/openapi-ts'
+import { type RequestParams } from '@0x-jerry/openapi-ts/runtime'
 
 export interface Config {
   customOption?: any
 }
 
-export const _request = async <Return>(data: RequestParams<Config>) => {
+export const _request = async (data: RequestParams<Config>) => {
   const resp = await doRequest({
     url: data.url,
     method: data.method,
@@ -39,7 +39,7 @@ export const _request = async <Return>(data: RequestParams<Config>) => {
     config: data.config,
   })
 
-  return resp as Return
+  return resp
 }
 ```
 
