@@ -101,7 +101,7 @@ export interface ParseOpenAPIOption {
   forceUseApi?: boolean
 }
 
-export async function parseOpenAPI(schema: any, opt?: ParseOpenAPIOption) {
+export async function parseOpenAPI(schema: unknown, opt?: ParseOpenAPIOption) {
   const ctx: ParserContext = {
     schema: await unifySchema(schema, opt?.forceUseApi),
     apis: [],
@@ -115,6 +115,7 @@ export async function parseOpenAPI(schema: any, opt?: ParseOpenAPIOption) {
 function parsePaths(ctx: ParserContext, paths: PathsObject) {
   for (const [path, _conf] of Object.entries(paths)) {
     const conf = getRef(ctx, _conf)
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const methods = Object.keys(conf).filter((m: any) => METHODS.includes(m)) as APIMethod[]
 
     for (const method of methods) {
@@ -154,7 +155,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const paramsTypeSchema = parsePathParams(params, path)
   if (paramsTypeSchema) {
-    const name = api.name + PascalCase(api.method) + 'Param'
+    const name = `${api.name + PascalCase(api.method)}Param`
     addApiTypeDef(api, name, paramsTypeSchema)
 
     api.paramsType = {
@@ -165,7 +166,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const queryTypeSchema = parseQueryParams(params)
   if (queryTypeSchema) {
-    const name = api.name + PascalCase(api.method) + 'Query'
+    const name = `${api.name + PascalCase(api.method)}Query`
     addApiTypeDef(api, name, queryTypeSchema)
 
     api.queryType = {
@@ -177,7 +178,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
   const bodyTypeSchema =
     method === 'get' ? null : parseRequestBodyType(ctx, getRef(ctx, op.requestBody))
   if (bodyTypeSchema) {
-    const name = api.name + PascalCase(api.method) + 'RequestBody'
+    const name = `${api.name + PascalCase(api.method)}RequestBody`
     addApiTypeDef(api, name, bodyTypeSchema)
 
     api.bodyType = {
@@ -188,7 +189,7 @@ function parseAPI(ctx: ParserContext, op: OperationObject, path: string, method:
 
   const responseTypeSchema = parseResponseType(ctx, op.responses)
   if (responseTypeSchema) {
-    const name = api.name + PascalCase(api.method) + 'Response'
+    const name = `${api.name + PascalCase(api.method)}Response`
     addApiTypeDef(api, name, responseTypeSchema)
 
     api.responseType = {
@@ -297,9 +298,12 @@ function parseQueryParams(parameters: ParameterObject[]): SchemaObject | null {
     properties: {},
   }
 
+  // biome-ignore lint/complexity/noForEach: <explanation>
   types.forEach((param) => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     schema.properties![param.name!] = {
       description: param.description,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       ...param.schema!,
     }
   })
@@ -320,22 +324,29 @@ function parsePathParams(params: ParameterObject[], path: string): SchemaObject 
 
   const pathParams = params.filter((p) => p.in === 'path' && p.name)
 
+  // biome-ignore lint/complexity/noForEach: <explanation>
   pathParams.forEach((param) => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     schema.properties![param.name!] = {
       description: param.description,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       ...param.schema!,
     }
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     pathParamsList.splice(pathParamsList.indexOf(param.name!), 1)
   })
 
   // add missing path parameters
+  // biome-ignore lint/complexity/noForEach: <explanation>
   pathParamsList.forEach((name) => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     schema.properties![name] = {
       type: 'string',
     }
   })
 
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   schema.required = Object.keys(schema.properties!)
 
   return schema

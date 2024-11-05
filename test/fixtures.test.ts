@@ -1,16 +1,12 @@
-import { readFileSync, readdirSync } from 'fs'
-import { join } from 'path'
-import { readFile } from 'fs/promises'
+import { readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import { readFile } from 'node:fs/promises'
 import { generateClientCodes } from '../src'
 import { expectMatchOutput } from './_utils'
 
 const sharedSchema = Object.freeze({
-  v3: JSON.parse(
-    readFileSync(join(__dirname, 'schema/v3.json'), { encoding: 'utf8' })
-  ),
-  v2: JSON.parse(
-    readFileSync(join(__dirname, 'schema/v2.json'), { encoding: 'utf8' })
-  )
+  v3: JSON.parse(readFileSync(join(__dirname, 'schema/v3.json'), { encoding: 'utf8' })),
+  v2: JSON.parse(readFileSync(join(__dirname, 'schema/v2.json'), { encoding: 'utf8' })),
 })
 
 describe('fixtures', () => {
@@ -25,7 +21,7 @@ describe('fixtures', () => {
 
       const c = await generateClientCodes({
         schema: schema,
-        format: true
+        format: true,
       })
 
       const outputDir = `./out/fixtures/${file.slice(0, -5 /* remove .json */)}`

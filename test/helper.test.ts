@@ -1,5 +1,5 @@
-import { readFile } from 'fs/promises'
-import path from 'path'
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
 import { replaceSchemaType } from '../src/helper'
 import { parseOpenAPI } from '../src/parser'
 
@@ -15,6 +15,7 @@ describe('helper', () => {
       targetType: 'number',
     })
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     expect(ctx.schema.components!.schemas!.Employee).toMatchSnapshot()
   })
 })

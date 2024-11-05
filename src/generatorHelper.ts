@@ -1,16 +1,17 @@
 import fsp from 'fs-extra'
 import { parseOpenAPI, type APIConfig } from './parser'
 import { createFsFromVolume, Volume, type IFs } from 'memfs'
-import path from 'path'
-import { generateFromCtx, type GeneratorContext } from './generator'
+import path from 'node:path'
+import { generateFromCtx, type GenerateOption, type GeneratorContext } from './generator'
 
 export interface GenerateClientCodesOptions {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   schema: any
 
   /**
    * @default 'nested'
    */
-  apiStyle: 'flatten' | 'nested'
+  apiStyle?: GenerateOption['style']
 
   /**
    * @default 'api/generated'
@@ -34,7 +35,7 @@ export interface GenerateClientCodesOptions {
   clean?: boolean
 }
 
-export async function generateClientCodes(opt: GenerateClientCodesOptions) {
+async function generateClientCodes(opt: GenerateClientCodesOptions) {
   const parser = await parseOpenAPI(opt.schema)
 
   if (opt.filter) {
@@ -48,7 +49,9 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
     fs: createFsFromVolume(vol),
   }
 
-  await generateFromCtx(ctx)
+  await generateFromCtx(ctx, {
+    style: opt.apiStyle || 'nested',
+  })
 
   if (opt.format) {
     await formatCodes(ctx.fs)
@@ -67,7 +70,7 @@ export async function generate(opt: GenerateClientCodesOptions) {
     opt,
   )
 
-  const ctx = await generateClientCodes(opt)
+  const ctx = await generateClientCodes(option)
 
   if (option.output) {
     await writeToDisk(ctx.fs, option.output, {
@@ -76,7 +79,7 @@ export async function generate(opt: GenerateClientCodesOptions) {
   }
 }
 
-async function formatCodes(vfs: IFs, dir: string = '/') {
+async function formatCodes(vfs: IFs, dir = '/') {
   const files = vfs.readdirSync(dir)
 
   for (const file of files) {
