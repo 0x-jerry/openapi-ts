@@ -12,13 +12,13 @@ describe('openapi parse', () => {
     const ctx = await parseOpenAPI(sharedSchema.v3)
 
     expect(ctx.apis.length).toBe(2)
-    expect(JSON.stringify(ctx.apis, null, 2)).toMatchFileSnapshot('./out/parser/v3.json')
+    await expect(JSON.stringify(ctx.apis, null, 2)).toMatchFileSnapshot('./out/parser/v3.json')
   })
 
   it('should parse Swagger v2', async () => {
     const ctx = await parseOpenAPI(sharedSchema.v2)
 
     expect(ctx.apis.length).toBe(7)
-    expect(JSON.stringify(ctx.apis, null, 2)).toMatchFileSnapshot('./out/parser/v2.json')
+    await expect(JSON.stringify(ctx.apis, null, 2)).toMatchFileSnapshot('./out/parser/v2.json')
   })
 })

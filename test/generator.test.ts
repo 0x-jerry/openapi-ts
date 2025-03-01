@@ -16,7 +16,7 @@ describe('openapi parse', () => {
     })
 
     const outputDir = './out/generator/normal'
-    expectMatchOutput(c.vol, outputDir)
+    await expectMatchOutput(c.vol, outputDir)
   })
 
   it('should only generate path start with `/api/gen/clients`', async () => {
@@ -44,6 +44,6 @@ describe('openapi parse', () => {
     })
 
     const outputDir = './out/generator/flatten'
-    expectMatchOutput(c.vol, outputDir)
+    await expectMatchOutput(c.vol, outputDir)
   })
 })

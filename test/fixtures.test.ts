@@ -25,7 +25,7 @@ describe('fixtures', () => {
       })
 
       const outputDir = `./out/fixtures/${file.slice(0, -5 /* remove .json */)}`
-      expectMatchOutput(c.vol, outputDir)
+      await expectMatchOutput(c.vol, outputDir)
     })
   }
 })
