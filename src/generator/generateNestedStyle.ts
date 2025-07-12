@@ -1,8 +1,8 @@
-import type { ParserContext } from '../parser'
-import type { IFs } from 'memfs'
 import path from 'node:path'
-import type { Volume } from 'memfs/lib/volume'
 import { camelCase } from '@0x-jerry/utils'
+import type { IFs } from 'memfs'
+import type { Volume } from 'memfs/lib/volume'
+import type { ParserContext } from '../parser'
 import { generateFromCtx } from './core'
 
 export interface GeneratorContext extends ParserContext {

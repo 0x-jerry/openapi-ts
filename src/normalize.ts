@@ -1,7 +1,8 @@
 // @ts-ignore
-import swagger2openapi from 'swagger2openapi'
-import type { OpenAPI3 } from 'openapi-typescript'
+
 import { cloneDeep } from 'lodash-es'
+import type { OpenAPI3 } from 'openapi-typescript'
+import swagger2openapi from 'swagger2openapi'
 
 /**
  *
@@ -35,7 +36,7 @@ function swaggerToOpenAPI(v2: any): Promise<OpenAPI3> {
       (err: Error | null, options: any) => {
         if (err) reject(err)
         else resolve(options.openapi)
-      }
+      },
     )
   })
 }

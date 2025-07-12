@@ -1,13 +1,12 @@
-import { set } from 'lodash-es'
-import type { IFs } from 'memfs'
-import type { SchemaObject } from 'openapi-typescript'
 import path, { dirname } from 'node:path'
+import type { Awaitable } from '@0x-jerry/utils'
+import { groupBy, set } from 'lodash-es'
+import type { IFs } from 'memfs'
+import type { Volume } from 'memfs/lib/volume'
+import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from '../generateTypes'
 import type { APIConfig, APIParameterConfig, ParserContext } from '../parser'
-import { groupBy } from 'lodash-es'
 import { createSpinner } from '../utils'
-import type { Volume } from 'memfs/lib/volume'
-import type { Awaitable } from '@0x-jerry/utils'
 import { OPENAPI_PARAM_REG } from './shared'
 
 export const config = {
@@ -185,7 +184,7 @@ async function generateApiByPath(ctx: GeneratorContextWithOption, groupedApi: AP
 function normalizeFilePath(apiPath: string) {
   let filePath = apiPath
     .split('/')
-    .map((item) => (/^\{[^\}]+\}$/.test(item) ? `_${item.slice(1, -1)}` : item))
+    .map((item) => (/^\{[^}]+\}$/.test(item) ? `_${item.slice(1, -1)}` : item))
     .join('/')
 
   if (filePath === '/') {

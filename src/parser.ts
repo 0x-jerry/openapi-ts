@@ -1,3 +1,4 @@
+import { ensureArray, PascalCase } from '@0x-jerry/utils'
 import type {
   MediaTypeObject,
   OpenAPI3,
@@ -10,7 +11,6 @@ import type {
   SchemaObject,
 } from 'openapi-typescript'
 import { getRef, isRef } from './helper'
-import { ensureArray, PascalCase } from '@0x-jerry/utils'
 import { unifySchema } from './normalize'
 import { convertPathToName } from './utils'
 

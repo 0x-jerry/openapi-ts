@@ -1,5 +1,5 @@
-import type { Volume } from 'memfs/lib/volume'
 import path from 'node:path'
+import type { Volume } from 'memfs/lib/volume'
 import { expect } from 'vitest'
 
 export async function expectMatchOutput(vfs: Volume, outputDir: string) {

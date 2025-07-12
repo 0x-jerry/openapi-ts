@@ -1,7 +1,7 @@
-import ora from 'ora'
-import { generate } from '../src'
 import { sliver } from '@0x-jerry/silver'
+import ora from 'ora'
 import { version } from '../package.json'
+import { generate } from '../src'
 
 sliver`
 v${version}

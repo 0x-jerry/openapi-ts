@@ -1,5 +1,5 @@
-import type { OpenAPI3, ReferenceObject, SchemaObject } from 'openapi-typescript'
 import { type Arrayable, ensureArray } from '@0x-jerry/utils'
+import type { OpenAPI3, ReferenceObject, SchemaObject } from 'openapi-typescript'
 import type { ParserContext } from './parser'
 
 export interface ReplaceSchemaTypeConfig {
