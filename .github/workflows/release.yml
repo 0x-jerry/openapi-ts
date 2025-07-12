@@ -3,7 +3,8 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - '**'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -17,9 +18,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: latest
 
-      - name: Release
-        run: npx changelogithub
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate Release Note
+        run: npx changelogithub --output GEN_CHANGELOG.md
+      
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: GEN_CHANGELOG.md
