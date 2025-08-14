@@ -10,8 +10,16 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "outDir": "dist",
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals"
+    ]
   },
-  "include": ["src", "test", "runtime", "cli"],
-  "exclude": ["test/out"]
+  "include": [
+    "src",
+    "test",
+    "cli"
+  ],
+  "exclude": [
+    "test/out"
+  ]
 }
