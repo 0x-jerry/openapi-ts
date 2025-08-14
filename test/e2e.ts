@@ -4,7 +4,7 @@ import schema from './schema/halo.json'
 await generate({
   apiStyle: 'flatten',
   schema: schema,
-  output: 'temp/generated',
+  output: 'temp/api',
   format: true,
   clean: true,
 })
