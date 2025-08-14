@@ -1,11 +1,12 @@
-import path from 'node:path'
 import fsp from 'fs-extra'
 import { createFsFromVolume, type IFs, Volume } from 'memfs'
-import { type GenerateOption, type GeneratorContext, generateFromCtx } from './generator'
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import { generateFromCtx, type GenerateOption, type GeneratorContext } from './generator'
 import { type APIConfig, parseOpenAPI } from './parser'
+import { adapterTemplates } from './templates'
 
 export interface GenerateClientCodesOptions {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   schema: any
 
   /**
@@ -14,7 +15,7 @@ export interface GenerateClientCodesOptions {
   apiStyle?: GenerateOption['style']
 
   /**
-   * @default 'api/generated'
+   * @default 'api'
    */
   output?: string
 
@@ -50,7 +51,7 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
   }
 
   await generateFromCtx(ctx, {
-    style: opt.apiStyle || 'nested',
+    style: opt.apiStyle ?? 'nested',
   })
 
   if (opt.format) {
@@ -63,7 +64,7 @@ export async function generateClientCodes(opt: GenerateClientCodesOptions) {
 export async function generate(opt: GenerateClientCodesOptions) {
   const option: GenerateClientCodesOptions = Object.assign(
     {
-      output: 'api/generated',
+      output: 'api',
       format: false,
       clean: false,
     },
@@ -73,10 +74,27 @@ export async function generate(opt: GenerateClientCodesOptions) {
   const ctx = await generateClientCodes(option)
 
   if (option.output) {
-    await writeToDisk(ctx.fs, option.output, {
+    await writeToDisk(ctx.fs, path.join(option.output, 'generated'), {
       clean: opt.clean,
     })
+
+    await writeAdapterFile('native', path.join(option.output, '_adapter.ts'))
   }
+}
+
+async function writeAdapterFile(adapter: string, output: string) {
+  if (existsSync(output)) {
+    console.log(`[${output}] exists, skipped!`)
+    return
+  }
+
+  let tpl = adapterTemplates[adapter]
+  if (!tpl) {
+    console.log(`Adapter [${adapter}] not support, use native adapter instead of.`)
+    tpl = adapterTemplates.native
+  }
+
+  await fsp.writeFile(output, tpl)
 }
 
 async function formatCodes(vfs: IFs, dir = '/') {
