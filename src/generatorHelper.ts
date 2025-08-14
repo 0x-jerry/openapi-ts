@@ -34,6 +34,13 @@ export interface GenerateClientCodesOptions {
    * Clean output dir before write file.
    */
   clean?: boolean
+
+  /**
+   * Adapter type, support 'native', 'axios', 'ky'
+   *
+   * @default 'native'
+   */
+  adapter?: string
 }
 
 export async function generateClientCodes(opt: GenerateClientCodesOptions) {
@@ -67,6 +74,8 @@ export async function generate(opt: GenerateClientCodesOptions) {
       output: 'api',
       format: false,
       clean: false,
+      adapter: 'native',
+      apiStyle: 'nested',
     },
     opt,
   )
@@ -78,20 +87,23 @@ export async function generate(opt: GenerateClientCodesOptions) {
       clean: opt.clean,
     })
 
-    await writeAdapterFile('native', path.join(option.output, '_adapter.ts'))
+    await writeAdapterFile(option.adapter, path.join(option.output, '_adapter.ts'))
   }
 }
 
-async function writeAdapterFile(adapter: string, output: string) {
+async function writeAdapterFile(adapter: string | undefined, output: string) {
   if (existsSync(output)) {
     console.log(`[${output}] exists, skipped!`)
     return
   }
 
-  let tpl = adapterTemplates[adapter]
+  const defaultAdapter = 'native'
+
+  let tpl = adapterTemplates[adapter ?? defaultAdapter]
+
   if (!tpl) {
     console.log(`Adapter [${adapter}] not support, use native adapter instead of.`)
-    tpl = adapterTemplates.native
+    tpl = adapterTemplates[defaultAdapter]
   }
 
   await fsp.writeFile(output, tpl)

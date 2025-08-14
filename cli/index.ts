@@ -6,11 +6,12 @@ import { generate } from '../src'
 sliver`
 v${version}
 
-o2ts <openapi-schema-url>, Convert openapi/swagger schema to typescript code, support ky/axios runtime out of box. ${defaultAction}
+o2ts <openapi-schema-url>, Convert openapi/swagger schema to typescript code, support custom adapter. ${defaultAction}
 
 --output @string, Output dir for typescript code, default is 'src/api'.
 --format @bool, Format the output code.
 --style  @string, Generated code style, 'flatten' or 'nested', default is 'nested'.
+--adapter @string, Adapter type, support 'native', 'axios' and 'ky', default is 'native'.
 `
 
 async function defaultAction(
