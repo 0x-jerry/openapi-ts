@@ -28,12 +28,12 @@ interface RequestParams {
   /**
    * query
    */
-  query?: any
+  query?: Record<string, string>
 
   /**
    * path parameters
    */
-  params?: any
+  params?: Record<string, string>
 
   /**
    * custom config

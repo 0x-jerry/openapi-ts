@@ -24,12 +24,12 @@ interface RequestParams {
   /**
    * query
    */
-  query?: any
+  query?: Record<string, unknown>
 
   /**
    * path parameters
    */
-  params?: any
+  params?: Record<string, string>
 
   /**
    * custom config
@@ -40,6 +40,10 @@ interface RequestParams {
 function createAdapter() {
   const _request = async <Return>(data: RequestParams) => {
     const url = new URL(data.url, location.origin)
+
+    Object.entries(data.query ?? {}).forEach(([key, value]) => {
+      url.searchParams.set(key, String(value ?? ''))
+    })
 
     const resp = await fetch(url, {
       method: data.method,
