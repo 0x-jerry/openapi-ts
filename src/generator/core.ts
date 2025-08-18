@@ -7,6 +7,7 @@ import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from '../generateTypes'
 import type { APIConfig, APIParameterConfig, ParserContext } from '../parser'
 import { createSpinner } from '../utils'
+import { GeneratedCodeHeader } from '.'
 import { OPENAPI_PARAM_REG } from './shared'
 
 export const config = {
@@ -141,7 +142,7 @@ function generateResponseType(api: APIConfig): string {
 async function generateApiByPath(ctx: GeneratorContextWithOption, groupedApi: APIConfig[]) {
   const fs = ctx.fs
 
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  // biome-ignore lint/style/noNonNullAssertion: <>
   const apiPath = groupedApi.at(0)!.path
   const outputFilePath = normalizeFilePath(apiPath)
 
@@ -150,7 +151,7 @@ async function generateApiByPath(ctx: GeneratorContextWithOption, groupedApi: AP
     .replaceAll('\\', '/')
 
   const codes: string[] = [
-    '// @ts-ignore\n// @ts-nocheck',
+    ...GeneratedCodeHeader,
     `import { ${config.nameMapper.requestAdapterName}, type RequestConfig } from '${adapterRelativePath}'`,
   ]
 
@@ -164,7 +165,6 @@ async function generateApiByPath(ctx: GeneratorContextWithOption, groupedApi: AP
 
   const refTypes = Object.assign({}, ...groupedApi.map((item) => item.refTypes))
 
-  // biome-ignore lint/complexity/noForEach: <explanation>
   Object.entries(refTypes).forEach(([key, refSchema]) => {
     const paths = key.split('/').slice(1)
     set(schema, paths, refSchema)
