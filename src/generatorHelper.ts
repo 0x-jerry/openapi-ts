@@ -128,7 +128,7 @@ async function formatCodes(vfs: IFs, dir = '/') {
           parser: 'typescript',
         })
         vfs.writeFileSync(filePath, formattedContent)
-      } catch (error) {
+      } catch (_error) {
         console.warn('Format code failed:', filePath)
       }
     }

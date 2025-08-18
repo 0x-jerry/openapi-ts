@@ -3,6 +3,7 @@ import { camelCase, PascalCase } from '@0x-jerry/utils'
 import type { IFs } from 'memfs'
 import type { Volume } from 'memfs/lib/volume'
 import type { ParserContext } from '../parser'
+import { GeneratedCodeHeader } from '.'
 import { generateFromCtx } from './core'
 import { OPENAPI_PARAM_REG } from './shared'
 
@@ -15,7 +16,7 @@ export const generateFlattenStyle = (ctx: GeneratorContext) => {
   return generateFromCtx({
     ...ctx,
     generateIndex: (ctx) => generateIndexFiles(ctx.fs),
-    generateApiName(ctx, api) {
+    generateApiName(_ctx, api) {
       const apiPath = api.path
         .replace(OPENAPI_PARAM_REG, (n) => n.slice(1, -1))
         .replace(/\.\w/g, (n) => n.slice(1).toUpperCase())
@@ -59,7 +60,6 @@ function generateIndexFiles(vfs: IFs) {
       const theSameNameFolder = files.filter((item) => tsFiles.includes(`${item}.ts`))
 
       const extraExports: string[] = []
-      // biome-ignore lint/complexity/noForEach: <explanation>
       theSameNameFolder.forEach((name) => {
         extraExports.push(`export * from './${name}/index.ts'`)
       })
@@ -73,17 +73,17 @@ function generateIndexFiles(vfs: IFs) {
 
         const content = vfs.readFileSync(path.join(input, item)).toString('utf-8')
 
-        const funcitonNames: string[] = []
+        const functionNames: string[] = []
         content.replace(FUNCTION_NAME_REGEXP, (raw, p1) => {
-          funcitonNames.push(p1)
+          functionNames.push(p1)
 
           return raw
         })
 
-        return `export {${funcitonNames.join(',')}} from './${item}'`
+        return `export {${functionNames.join(',')}} from './${item}'`
       })
 
-      const codes = ['//@ts-ignore\n//@ts-nocheck', ...indexFileCodes, ...extraExports]
+      const codes = [...GeneratedCodeHeader, ...indexFileCodes, ...extraExports]
 
       vfs.writeFileSync(path.join(input, 'index.ts'), codes.join('\n'))
     }

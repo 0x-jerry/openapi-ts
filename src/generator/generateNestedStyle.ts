@@ -3,6 +3,7 @@ import { camelCase } from '@0x-jerry/utils'
 import type { IFs } from 'memfs'
 import type { Volume } from 'memfs/lib/volume'
 import type { ParserContext } from '../parser'
+import { GeneratedCodeHeader } from '.'
 import { generateFromCtx } from './core'
 
 export interface GeneratorContext extends ParserContext {
@@ -14,7 +15,7 @@ export const generateNestedStyle = (ctx: GeneratorContext) => {
   return generateFromCtx({
     ...ctx,
     generateIndex: (ctx) => generateIndexFiles(ctx.fs),
-    generateApiName(ctx, api) {
+    generateApiName(_ctx, api) {
       return `$${api.method.toLowerCase()}`
     },
   })
@@ -38,7 +39,6 @@ function generateIndexFiles(vfs: IFs) {
       const tsFiles = files.filter((n) => n.endsWith('.ts'))
       const theSameNameFolder = files.filter((item) => tsFiles.includes(`${item}.ts`))
 
-      // biome-ignore lint/complexity/noForEach: <explanation>
       theSameNameFolder.forEach((name) => {
         const _file = path.join(input, `${name}.ts`)
         let code = vfs.readFileSync(_file)
@@ -57,7 +57,7 @@ function generateIndexFiles(vfs: IFs) {
         return `export * as ${name} from './${item}'`
       })
 
-      const codes = ['//@ts-ignore\n//@ts-nocheck', ...indexFileCodes]
+      const codes = [...GeneratedCodeHeader, ...indexFileCodes]
 
       vfs.writeFileSync(path.join(input, 'index.ts'), codes.join('\n'))
     }
