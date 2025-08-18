@@ -1,8 +1,8 @@
-import fsp from 'fs-extra'
-import { createFsFromVolume, type IFs, Volume } from 'memfs'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
-import { generateFromCtx, type GenerateOption, type GeneratorContext } from './generator'
+import fsp from 'fs-extra'
+import { createFsFromVolume, type IFs, Volume } from 'memfs'
+import { type GenerateOption, type GeneratorContext, generateFromCtx } from './generator'
 import { type APIConfig, parseOpenAPI } from './parser'
 import { adapterTemplates } from './templates'
 

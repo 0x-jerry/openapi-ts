@@ -92,7 +92,9 @@ export function getRef<T>(
 
   const paths = type.$ref.split('/').slice(1)
 
-  paths.forEach((key) => (r = r[key]))
+  paths.forEach((key) => {
+    r = r[key]
+  })
 
   return getRef(ctx, r)
 }

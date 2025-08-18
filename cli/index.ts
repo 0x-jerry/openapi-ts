@@ -38,5 +38,6 @@ async function defaultAction(
     output: arg.output ?? 'src/api',
     schema: swaggerSchema,
     apiStyle,
+    clean: true,
   })
 }
