@@ -1,8 +1,7 @@
 import path, { dirname } from 'node:path'
 import type { Awaitable } from '@0x-jerry/utils'
 import { groupBy, set } from 'lodash-es'
-import type { IFs } from 'memfs'
-import type { Volume } from 'memfs/lib/volume'
+import type { Volume, IFs } from 'memfs'
 import type { SchemaObject } from 'openapi-typescript'
 import { generateInterface } from '../generateTypes'
 import type { APIConfig, APIParameterConfig, ParserContext } from '../parser'
@@ -85,7 +84,7 @@ function generateApiMethodCode(ctx: GeneratorContextWithOption, api: APIConfig) 
 }
 
 function generateRequestUrl(api: APIConfig): string {
-  return api.path.replace(OPENAPI_PARAM_REG, `\${${config.nameMapper.parameters}.\$1}`)
+  return api.path.replace(OPENAPI_PARAM_REG, `\${${config.nameMapper.parameters}.$1}`)
 }
 
 export interface ParameterConfig {

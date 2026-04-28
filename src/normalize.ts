@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import { cloneDeep } from 'lodash-es'
 import type { OpenAPI3 } from 'openapi-typescript'
 import swagger2openapi from 'swagger2openapi'
@@ -26,19 +24,12 @@ async function useApiConvertSchema(schema: any) {
   return result
 }
 
-function swaggerToOpenAPI(v2: any): Promise<OpenAPI3> {
-  return new Promise((resolve, reject) => {
-    swagger2openapi.convertObj(
-      v2,
-      {
-        patch: true,
-      },
-      (err: Error | null, options: any) => {
-        if (err) reject(err)
-        else resolve(options.openapi)
-      },
-    )
+async function swaggerToOpenAPI(v2: any): Promise<OpenAPI3> {
+  const result = await swagger2openapi.convertObj(v2, {
+    patch: true,
   })
+
+  return result.openapi as OpenAPI3
 }
 
 export async function unifySchema(schema: any, force?: boolean): Promise<OpenAPI3> {

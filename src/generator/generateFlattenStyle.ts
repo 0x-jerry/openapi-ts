@@ -1,7 +1,6 @@
 import path from 'node:path'
 import { camelCase, PascalCase } from '@0x-jerry/utils'
-import type { IFs } from 'memfs'
-import type { Volume } from 'memfs/lib/volume'
+import type { IFs, Volume } from 'memfs'
 import type { ParserContext } from '../parser'
 import { GeneratedCodeHeader } from '.'
 import { generateFromCtx } from './core'

@@ -1,9 +1,11 @@
+#!/usr/bin/env node
+
 import { sliver } from '@0x-jerry/silver'
 import ora from 'ora'
 import { version } from '../package.json'
 import { generate } from '../src'
 
-sliver`
+const _ = sliver`
 v${version}
 
 o2ts <openapi-schema-url>, Convert openapi/swagger schema to typescript code, support custom adapter. ${defaultAction}

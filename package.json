@@ -4,33 +4,20 @@
   "description": "This package provide a quick way to transform OpenAPI schema or Swagger schema to client typescript code.",
   "type": "module",
   "bin": {
-    "o2ts": "dist/cli/index.js"
+    "o2ts": "dist/cli/index.mjs"
   },
   "exports": {
-    ".": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
-    }
+    ".": "./dist/src/index.mjs"
   },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --coverage",
-    "build": "tsup",
+    "build": "tsdown",
     "g:test": "tsx test/e2e.ts",
     "release": "x-release",
     "prepublishOnly": "npm run build"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts",
-      "runtime/index.ts",
-      "cli/index.ts"
-    ],
-    "format": "esm",
-    "dts": true,
-    "clean": true
   },
   "files": [
     "dist"
@@ -40,34 +27,34 @@
     "access": "public"
   },
   "optionalDependencies": {
-    "axios": "^1.11.0",
-    "ky": "^1.8.2"
+    "axios": "^1.15.2",
+    "ky": "^2.0.2"
   },
   "dependencies": {
-    "@0x-jerry/silver": "^1.1.1",
-    "@0x-jerry/utils": "^5.0.0",
-    "fs-extra": "^11.3.1",
+    "@0x-jerry/silver": "^1.2.4",
+    "@0x-jerry/utils": "^6.4.2",
+    "fs-extra": "^11.3.4",
     "json-schema-to-typescript": "^15.0.4",
-    "lodash-es": "^4.17.21",
-    "memfs": "^4.36.0",
-    "openapi-typescript": "^7.9.1",
-    "ora": "^8.2.0",
-    "prettier": "^3.6.2",
+    "lodash-es": "^4.18.1",
+    "memfs": "^4.57.2",
+    "openapi-typescript": "^7.13.0",
+    "ora": "^9.4.0",
+    "prettier": "^3.8.3",
     "swagger2openapi": "^7.0.8"
   },
   "devDependencies": {
-    "@0x-jerry/x-release": "^2.4.0",
-    "@biomejs/biome": "^2.1.4",
+    "@0x-jerry/x-release": "^3.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^24.2.1",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
+    "@types/node": "^25.6.0",
+    "@types/swagger2openapi": "^7.0.4",
+    "@vitest/coverage-v8": "^4.1.5",
+    "@vitest/ui": "^4.1.5",
     "axios": "^1.6.7",
     "ky": "^1.2.0",
-    "tsup": "^8.5.0",
-    "tsx": "^4.20.4",
-    "typescript": "^5.9.2",
-    "vitest": "3.2.4"
+    "oxfmt": "^0.47.0",
+    "tsdown": "^0.21.10",
+    "typescript": "^6.0.3",
+    "vitest": "4.1.5"
   }
 }
